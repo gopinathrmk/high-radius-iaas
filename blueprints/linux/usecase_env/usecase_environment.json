@@ -1,0 +1,39 @@
+{
+
+    "_comment_APPLICATION_CLUSTER_CATEGORY1": "Category used to identify clusters of type application. Specify only one category",
+    "_comment_APPLICATION_CLUSTER_CATEGORY2": "if multiple values are specified for the category in the filter, a cluster including all these values is considered to be an application cluster",
+    "_comment_APPLICATION_CLUSTER_CATEGORY3": "the filter won't exclude cluster having other values for this category (in case one management cluster is used for some applications)",
+    "APPLICATION_CLUSTER_CATEGORY": {
+        "ClusterType": [
+            "application"
+        ]
+    },
+
+    "_comment_COMMON_MARKETPLACE_ITEMS_PATTERN": "regex filter to restrict marketplace items that will be published in the tenant projects at project creation time",
+    "COMMON_MARKETPLACE_ITEMS_PATTERN": "ECHo.*",
+
+    "_comment_COMMON_MARKETPLACE_ITEMS_STATES1": "states filter (list of states) to restrict marketplace items that will be published in the tenant projects at project creation time",
+    "_comment_COMMON_MARKETPLACE_ITEMS_STATES2": " marketplace items which states are outside this list are excluded",
+    "_comment_COMMON_MARKETPLACE_ITEMS_STATES3": " possible values: ['PUBLISHED'], ['ACCEPTED'] or ['PUBLISHED', 'ACCEPTED']",
+    "COMMON_MARKETPLACE_ITEMS_STATES": ["PUBLISHED"],
+
+    "_comment_PROJECT_ENVIRONMENTS_JSON_SPEC_LIST1": "this variable describes environements that will be created with each new tenant project",
+    "_comment_PROJECT_ENVIRONMENTS_JSON_SPEC_LIST2": "each environement spec should have the following elements:",
+    "_comment_PROJECT_ENVIRONMENTS_JSON_SPEC_LIST3": "    name: name of teh environement",
+    "_comment_PROJECT_ENVIRONMENTS_JSON_SPEC_LIST4": "    description: description of the environement",
+    "_comment_PROJECT_ENVIRONMENTS_JSON_SPEC_LIST5": "    substrates: list --> what VM configurations should be created in the environement. possible values: ",
+    "_comment_PROJECT_ENVIRONMENTS_JSON_SPEC_LIST6": "    ['Linux'], ['Windows'] or  ['Windows', 'Linux']",
+    "PROJECT_ENVIRONMENTS_JSON_SPEC_LIST": [
+        {
+            "name": "default",
+            "description": "default environment",
+            "substrates": ["Windows", "Linux"]
+        }
+    ],
+
+    "_comment_MPI_RELEASE_REGEX1": "regex identifying the format of a marketplace item version coming from the release branch",
+    "_comment_MPI_RELEASE_REGEX2": "  if the version does not correspond to this regex, it is assumed to be a commit id",
+    "_comment_MPI_RELEASE_REGEX3": "  current value corresponds to pattern v9.9.9-AAAAA... ",
+    "MPI_RELEASE_REGEX": "^v(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)-.*$"
+
+}

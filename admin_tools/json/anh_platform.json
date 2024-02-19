@@ -1,0 +1,379 @@
+{
+    "api_version": "3.1",
+    "metadata": {
+        "categories": {
+            "AppFamily": "Demo",
+            "AppType": "Default",
+            "CalmApplication": "gtest4",
+            "CalmProject": "A_64_MNA",
+            "CalmService": "VM_Provision",
+            "CalmUsername": "chris.glover_emeagso.lab",
+            "OSType": "Windows"
+        },
+        "categories_mapping": {
+            "AppFamily": [
+                "Demo"
+            ],
+            "AppType": [
+                "Default"
+            ],
+            "CalmApplication": [
+                "gtest4"
+            ],
+            "CalmProject": [
+                "A_64_MNA"
+            ],
+            "CalmService": [
+                "VM_Provision"
+            ],
+            "CalmUsername": [
+                "chris.glover_emeagso.lab"
+            ],
+            "OSType": [
+                "Windows"
+            ]
+        },
+        "creation_time": "2024-01-17T00:11:42Z",
+        "entity_version": "2",
+        "kind": "vm",
+        "last_update_time": "2024-01-17T00:11:42Z",
+        "owner_reference": {
+            "kind": "user",
+            "name": "chris.glover@emeagso.lab",
+            "uuid": "c2342711-2824-551d-806b-4b103f65d34a"
+        },
+        "project_reference": {
+            "kind": "project",
+            "name": "A_64_MNA",
+            "uuid": "cc42f917-6b02-4d4b-9d69-022484a24c47"
+        },
+        "spec_version": 0,
+        "uuid": "675e002a-8b42-4a93-870c-b8f528e68c78"
+    },
+    "spec": {
+        "cluster_reference": {
+            "kind": "cluster",
+            "name": "gawain",
+            "uuid": "0005fdd6-984e-0865-47b9-7cc25507a515"
+        },
+        "name": "vm_gtest4-0",
+        "resources": {
+            "boot_config": {
+                "boot_device": {
+                    "disk_address": {
+                        "adapter_type": "SCSI",
+                        "device_index": 0
+                    }
+                },
+                "boot_type": "LEGACY"
+            },
+            "disk_list": [
+                {
+                    "data_source_reference": {
+                        "kind": "image",
+                        "uuid": "5a8f813e-769c-4de8-a1ed-43d2999137c3"
+                    },
+                    "device_properties": {
+                        "device_type": "DISK",
+                        "disk_address": {
+                            "adapter_type": "SCSI",
+                            "device_index": 0
+                        }
+                    },
+                    "disk_size_bytes": 96636764160,
+                    "disk_size_mib": 92160,
+                    "storage_config": {
+                        "storage_container_reference": {
+                            "kind": "storage_container",
+                            "name": "SelfServiceContainer",
+                            "uuid": "90f3f695-9e1c-4b65-8228-81ed65d9724f"
+                        }
+                    },
+                    "uuid": "862f471a-ca62-45b8-9f1a-d31282274b1c"
+                },
+                {
+                    "device_properties": {
+                        "device_type": "DISK",
+                        "disk_address": {
+                            "adapter_type": "SCSI",
+                            "device_index": 1
+                        }
+                    },
+                    "disk_size_bytes": 21474836480,
+                    "disk_size_mib": 20480,
+                    "storage_config": {
+                        "storage_container_reference": {
+                            "kind": "storage_container",
+                            "name": "SelfServiceContainer",
+                            "uuid": "90f3f695-9e1c-4b65-8228-81ed65d9724f"
+                        }
+                    },
+                    "uuid": "7ebeba60-aafa-410f-9999-7a91e2eeb126"
+                },
+                {
+                    "device_properties": {
+                        "device_type": "CDROM",
+                        "disk_address": {
+                            "adapter_type": "IDE",
+                            "device_index": 0
+                        }
+                    },
+                    "disk_size_bytes": 378880,
+                    "disk_size_mib": 1,
+                    "storage_config": {
+                        "storage_container_reference": {
+                            "kind": "storage_container",
+                            "name": "SelfServiceContainer",
+                            "uuid": "90f3f695-9e1c-4b65-8228-81ed65d9724f"
+                        }
+                    },
+                    "uuid": "81387e5c-d245-4fbc-8dd1-c70b19a9cca4"
+                }
+            ],
+            "gpu_list": [],
+            "guest_customization": {
+                "is_overridable": false,
+                "sysprep": {
+                    "install_type": "PREPARED",
+                    "unattend_xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHVuYXR0ZW5kIHhtbG5zPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnVuYXR0ZW5kIj4KICAgIDxzZXR0aW5ncyBwYXNzPSJzcGVjaWFsaXplIj4KICAgICAgICA8Y29tcG9uZW50CiAgICAgICAgICAgIHhtbG5zOndjbT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9XTUlDb25maWcvMjAwMi9TdGF0ZSIKICAgICAgICAgICAgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgbmFtZT0iTWljcm9zb2Z0LVdpbmRvd3MtU2hlbGwtU2V0dXAiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiPgogICAgICAgICAgICA8Q29tcHV0ZXJOYW1lPnZtX2d0ZXN0NC0wPC9Db21wdXRlck5hbWU+CiAgICAgICAgICAgIDxSZWdpc3RlcmVkT3JnYW5pemF0aW9uPnNkZjwvUmVnaXN0ZXJlZE9yZ2FuaXphdGlvbj4KICAgICAgICAgICAgPFJlZ2lzdGVyZWRPd25lcj5zZGY8L1JlZ2lzdGVyZWRPd25lcj4KICAgICAgICAgICAgPFRpbWVab25lPlcuIEV1cm9wZSBTdGFuZGFyZCBUaW1lPC9UaW1lWm9uZT4KICAgICAgICA8L2NvbXBvbmVudD4KICAgICAgICA8Y29tcG9uZW50IG5hbWU9Ik1pY3Jvc29mdC1XaW5kb3dzLUROUy1DbGllbnQiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiIHhtbG5zOndjbT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9XTUlDb25maWcvMjAwMi9TdGF0ZSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+CiAgICAgICAgICAgIDxJbnRlcmZhY2VzPgogICAgICAgICAgICAgICAgPEludGVyZmFjZSB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxETlNEb21haW4+c2RkYy52d2dyb3VwLmNvbTwvRE5TRG9tYWluPgogICAgICAgICAgICAgICAgICAgIDxFbmFibGVBZGFwdGVyRG9tYWluTmFtZVJlZ2lzdHJhdGlvbj5mYWxzZTwvRW5hYmxlQWRhcHRlckRvbWFpbk5hbWVSZWdpc3RyYXRpb24+CiAgICAgICAgICAgICAgICAgICAgPElkZW50aWZpZXI+RXRoZXJuZXQ8L0lkZW50aWZpZXI+CiAgICAgICAgICAgICAgICA8L0ludGVyZmFjZT4KICAgICAgICAgICAgPC9JbnRlcmZhY2VzPgogICAgICAgIDwvY29tcG9uZW50PgogICAgICAgIDxjb21wb25lbnQgbmFtZT0iTWljcm9zb2Z0LVdpbmRvd3MtVENQSVAiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiIHhtbG5zOndjbT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9XTUlDb25maWcvMjAwMi9TdGF0ZSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+CiAgICAgICAgICAgIDxJbnRlcmZhY2VzPgogICAgICAgICAgICAgICAgPEludGVyZmFjZSB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxJZGVudGlmaWVyPkV0aGVybmV0PC9JZGVudGlmaWVyPgogICAgICAgICAgICAgICAgICAgIDxJcHY0U2V0dGluZ3M+CiAgICAgICAgICAgICAgICAgICAgICAgIDxEaGNwRW5hYmxlZD50cnVlPC9EaGNwRW5hYmxlZD4KICAgICAgICAgICAgICAgICAgICA8L0lwdjRTZXR0aW5ncz4KICAgICAgICAgICAgICAgIDwvSW50ZXJmYWNlPgogICAgICAgICAgICA8L0ludGVyZmFjZXM+CiAgICAgICAgPC9jb21wb25lbnQ+CiAgICAgICAgPGNvbXBvbmVudAogICAgICAgICAgICB4bWxucz0iIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1UZXJtaW5hbFNlcnZpY2VzLUxvY2FsU2Vzc2lvbk1hbmFnZXIiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiPgogICAgICAgICAgICA8ZkRlbnlUU0Nvbm5lY3Rpb25zPmZhbHNlPC9mRGVueVRTQ29ubmVjdGlvbnM+CiAgICAgICAgPC9jb21wb25lbnQ+CiAgICAgICAgPGNvbXBvbmVudAogICAgICAgICAgICB4bWxucz0iIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1UZXJtaW5hbFNlcnZpY2VzLVJEUC1XaW5TdGF0aW9uRXh0ZW5zaW9ucyIgcHVibGljS2V5VG9rZW49IjMxYmYzODU2YWQzNjRlMzUiIGxhbmd1YWdlPSJuZXV0cmFsIiB2ZXJzaW9uU2NvcGU9Im5vblN4UyIgcHJvY2Vzc29yQXJjaGl0ZWN0dXJlPSJhbWQ2NCI+CiAgICAgICAgICAgIDxVc2VyQXV0aGVudGljYXRpb24+MDwvVXNlckF1dGhlbnRpY2F0aW9uPgogICAgICAgIDwvY29tcG9uZW50PgogICAgICAgIDxjb21wb25lbnQKICAgICAgICAgICAgeG1sbnM6d2NtPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL1dNSUNvbmZpZy8yMDAyL1N0YXRlIgogICAgICAgICAgICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBuYW1lPSJOZXR3b3JraW5nLU1QU1NWQy1TdmMiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiPgogICAgICAgICAgICA8RmlyZXdhbGxHcm91cHM+CiAgICAgICAgICAgICAgICA8RmlyZXdhbGxHcm91cCB3Y206YWN0aW9uPSJhZGQiIHdjbTprZXlWYWx1ZT0iUmVtb3RlRGVza3RvcCI+CiAgICAgICAgICAgICAgICAgICAgPEFjdGl2ZT50cnVlPC9BY3RpdmU+CiAgICAgICAgICAgICAgICAgICAgPFByb2ZpbGU+YWxsPC9Qcm9maWxlPgogICAgICAgICAgICAgICAgICAgIDxHcm91cD5ARmlyZXdhbGxBUEkuZGxsLC0yODc1MjwvR3JvdXA+CiAgICAgICAgICAgICAgICA8L0ZpcmV3YWxsR3JvdXA+CiAgICAgICAgICAgIDwvRmlyZXdhbGxHcm91cHM+CiAgICAgICAgPC9jb21wb25lbnQ+CiAgICA8L3NldHRpbmdzPgogICAgPHNldHRpbmdzIHBhc3M9Im9vYmVTeXN0ZW0iPgogICAgICAgIDxjb21wb25lbnQKICAgICAgICAgICAgeG1sbnM6d2NtPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL1dNSUNvbmZpZy8yMDAyL1N0YXRlIgogICAgICAgICAgICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1TaGVsbC1TZXR1cCIgcHJvY2Vzc29yQXJjaGl0ZWN0dXJlPSJhbWQ2NCIgcHVibGljS2V5VG9rZW49IjMxYmYzODU2YWQzNjRlMzUiIGxhbmd1YWdlPSJuZXV0cmFsIiB2ZXJzaW9uU2NvcGU9Im5vblN4UyI+CiAgICAgICAgICAgIDxVc2VyQWNjb3VudHM+CiAgICAgICAgICAgICAgICA8QWRtaW5pc3RyYXRvclBhc3N3b3JkPgogICAgICAgICAgICAgICAgICAgIDxWYWx1ZT5udXRhbml4LzR1PC9WYWx1ZT4KICAgICAgICAgICAgICAgICAgICA8UGxhaW5UZXh0PnRydWU8L1BsYWluVGV4dD4KICAgICAgICAgICAgICAgIDwvQWRtaW5pc3RyYXRvclBhc3N3b3JkPgogICAgICAgICAgICA8L1VzZXJBY2NvdW50cz4KICAgICAgICAgICAgPEF1dG9Mb2dvbj4KICAgICAgICAgICAgICAgIDxQYXNzd29yZD4KICAgICAgICAgICAgICAgICAgICA8VmFsdWU+bnV0YW5peC80dTwvVmFsdWU+CiAgICAgICAgICAgICAgICAgICAgPFBsYWluVGV4dD50cnVlPC9QbGFpblRleHQ+CiAgICAgICAgICAgICAgICA8L1Bhc3N3b3JkPgogICAgICAgICAgICAgICAgPEVuYWJsZWQ+dHJ1ZTwvRW5hYmxlZD4KICAgICAgICAgICAgICAgIDxVc2VybmFtZT5BZG1pbmlzdHJhdG9yPC9Vc2VybmFtZT4KICAgICAgICAgICAgPC9BdXRvTG9nb24+CiAgICAgICAgICAgIDxGaXJzdExvZ29uQ29tbWFuZHM+CiAgICAgICAgICAgICAgICAgPFN5bmNocm9ub3VzQ29tbWFuZCB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxDb21tYW5kTGluZT5jbWQuZXhlIC9jIG5ldHNoIGFkdmZpcmV3YWxsIHNldCBhbGxwcm9maWxlcyBzdGF0ZSBvZmY8L0NvbW1hbmRMaW5lPgogICAgICAgICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj5XaW4gUk0gcG9ydCBvcGVuPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+MTwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PnRydWU8L1JlcXVpcmVzVXNlcklucHV0PgogICAgICAgICAgICAgICAgPC9TeW5jaHJvbm91c0NvbW1hbmQ+CiAgICAgICAgICAgICAgICA8U3luY2hyb25vdXNDb21tYW5kIHdjbTphY3Rpb249ImFkZCI+CiAgICAgICAgICAgICAgICAgICAgPENvbW1hbmRMaW5lPnBvd2Vyc2hlbGwgLUNvbW1hbmQgIkVuYWJsZS1QU1JlbW90aW5nIC1Ta2lwTmV0d29ya1Byb2ZpbGVDaGVjayAtRm9yY2UiPC9Db21tYW5kTGluZT4KICAgICAgICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+RW5hYmxlIFBTLVJlbW90aW5nPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+MjwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PnRydWU8L1JlcXVpcmVzVXNlcklucHV0PgogICAgICAgICAgICAgICAgPC9TeW5jaHJvbm91c0NvbW1hbmQ+CiAgICAgICAgICAgICAgICA8U3luY2hyb25vdXNDb21tYW5kIHdjbTphY3Rpb249ImFkZCI+CiAgICAgICAgICAgICAgICAgICAgPENvbW1hbmRMaW5lPnBvd2Vyc2hlbGwgLUNvbW1hbmQgIlNldC1FeGVjdXRpb25Qb2xpY3kgLUV4ZWN1dGlvblBvbGljeSBVbnJlc3RyaWN0ZWQiPC9Db21tYW5kTGluZT4KICAgICAgICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+RW5hYmxlIFJlbW90ZS1TaWduaW5nPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+MzwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PmZhbHNlPC9SZXF1aXJlc1VzZXJJbnB1dD4KICAgICAgICAgICAgICAgIDwvU3luY2hyb25vdXNDb21tYW5kPgogICAgICAgICAgICAgICAgPFN5bmNocm9ub3VzQ29tbWFuZCB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxDb21tYW5kTGluZT5uZXRzaCBhZHZmaXJld2FsbCBmaXJld2FsbCBhZGQgcnVsZSBuYW1lPSJJQ01QIEFsbG93IGluY29taW5nIFY0IGVjaG8gcmVxdWVzdCIgcHJvdG9jb2w9aWNtcHY0OjgsYW55IGRpcj1pbiBhY3Rpb249YWxsb3c8L0NvbW1hbmRMaW5lPgogICAgICAgICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj5FbmFibGUgSUNNUDwvRGVzY3JpcHRpb24+CiAgICAgICAgICAgICAgICAgICAgPE9yZGVyPjQ8L09yZGVyPgogICAgICAgICAgICAgICAgICAgIDxSZXF1aXJlc1VzZXJJbnB1dD5mYWxzZTwvUmVxdWlyZXNVc2VySW5wdXQ+CiAgICAgICAgICAgICAgICA8L1N5bmNocm9ub3VzQ29tbWFuZD4KICAgICAgICAgICAgICAgIDxTeW5jaHJvbm91c0NvbW1hbmQgd2NtOmFjdGlvbj0iYWRkIj4KICAgICAgICAgICAgICAgICAgICA8Q29tbWFuZExpbmU+cG93ZXJzaGVsbC5leGUgLUNvbW1hbmQgd2lucm0gcXVpY2tjb25maWcgLWZvcmNlPC9Db21tYW5kTGluZT4KICAgICAgICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+RW5hYmxlLVBTUmVtb3Rpbmc8L0Rlc2NyaXB0aW9uPgogICAgICAgICAgICAgICAgICAgIDxPcmRlcj41PC9PcmRlcj4KICAgICAgICAgICAgICAgICAgICA8UmVxdWlyZXNVc2VySW5wdXQ+dHJ1ZTwvUmVxdWlyZXNVc2VySW5wdXQ+CiAgICAgICAgICAgICAgICA8L1N5bmNocm9ub3VzQ29tbWFuZD4KICAgICAgICAgICAgICAgIDxTeW5jaHJvbm91c0NvbW1hbmQgd2NtOmFjdGlvbj0iYWRkIj4KICAgICAgICAgICAgICAgICAgICA8Q29tbWFuZExpbmU+cG93ZXJzaGVsbCAtQ29tbWFuZCAiJHNoID0gKE5ldy1PYmplY3QgLUNvbU9iamVjdCAnU2hlbGwuQXBwbGljYXRpb24nKS5OYW1lc3BhY2UoMTcpLkl0ZW1zKCkgfCBXaGVyZS1PYmplY3QgeyAkXy5UeXBlIC1lcSAnQ0QgRHJpdmUnIH0gfCBmb3JlYWNoIHsgJF8uSW52b2tlVmVyYignRWplY3QnKSB9IjwvQ29tbWFuZExpbmU+CiAgICAgICAgICAgICAgICAgICAgPERlc2NyaXB0aW9uPkVqZWN0IENEUk9NIERyaXZlPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+NjwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PnRydWU8L1JlcXVpcmVzVXNlcklucHV0PgogICAgICAgICAgICAgICAgPC9TeW5jaHJvbm91c0NvbW1hbmQ+CiAgICAgICAgICAgICAgICA8U3luY2hyb25vdXNDb21tYW5kIHdjbTphY3Rpb249ImFkZCI+CiAgICAgICAgICAgICAgICAgICAgPENvbW1hbmRMaW5lPnBvd2Vyc2hlbGwgLUNvbW1hbmQgIkdldC1XbWlPYmplY3QgLUNsYXNzIFdpbjMyX3ZvbHVtZSAtRmlsdGVyICdEcml2ZVR5cGU9NScgfCBTZWxlY3QtT2JqZWN0IC1GaXJzdCAxIHwgU2V0LVdtaUluc3RhbmNlIC1Bcmd1bWVudHMgQHtEcml2ZUxldHRlcj0nVzonfSI8L0NvbW1hbmRMaW5lPgogICAgICAgICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj5DaGFuZ2UgQ0RST00gRHJpdmUgTGV0dGVyIHRvIFc8L0Rlc2NyaXB0aW9uPgogICAgICAgICAgICAgICAgICAgIDxPcmRlcj43PC9PcmRlcj4KICAgICAgICAgICAgICAgICAgICA8UmVxdWlyZXNVc2VySW5wdXQ+dHJ1ZTwvUmVxdWlyZXNVc2VySW5wdXQ+CiAgICAgICAgICAgICAgICA8L1N5bmNocm9ub3VzQ29tbWFuZD4KICAgICAgICAgICAgPC9GaXJzdExvZ29uQ29tbWFuZHM+CiAgICAgICAgICAgIDxPT0JFPgogICAgICAgICAgICAgICAgPEhpZGVFVUxBUGFnZT50cnVlPC9IaWRlRVVMQVBhZ2U+CiAgICAgICAgICAgICAgICA8U2tpcE1hY2hpbmVPT0JFPnRydWU8L1NraXBNYWNoaW5lT09CRT4KICAgICAgICAgICAgPC9PT0JFPgogICAgICAgIDwvY29tcG9uZW50PgogICAgICAgIDxjb21wb25lbnQKICAgICAgICAgICAgeG1sbnM6d2NtPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL1dNSUNvbmZpZy8yMDAyL1N0YXRlIgogICAgICAgICAgICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1JbnRlcm5hdGlvbmFsLUNvcmUiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiPgogICAgICAgICAgICA8SW5wdXRMb2NhbGU+ZW4tVVM8L0lucHV0TG9jYWxlPgogICAgICAgICAgICA8U3lzdGVtTG9jYWxlPmVuLVVTPC9TeXN0ZW1Mb2NhbGU+CiAgICAgICAgICAgIDxVSUxhbmd1YWdlRmFsbGJhY2s+ZW4tdXM8L1VJTGFuZ3VhZ2VGYWxsYmFjaz4KICAgICAgICAgICAgPFVJTGFuZ3VhZ2U+ZW4tVVM8L1VJTGFuZ3VhZ2U+CiAgICAgICAgICAgIDxVc2VyTG9jYWxlPmVuLVVTPC9Vc2VyTG9jYWxlPgogICAgICAgIDwvY29tcG9uZW50PgogICAgPC9zZXR0aW5ncz4KPC91bmF0dGVuZD4="
+                }
+            },
+            "hardware_clock_timezone": "UTC",
+            "is_agent_vm": false,
+            "machine_type": "PC",
+            "memory_size_mib": 8192,
+            "nic_list": [
+                {
+                    "ip_endpoint_list": [
+                        {
+                            "ip": "10.4.0.157",
+                            "type": "ASSIGNED"
+                        }
+                    ],
+                    "is_connected": true,
+                    "mac_address": "50:6b:8d:1a:58:2e",
+                    "nic_type": "NORMAL_NIC",
+                    "subnet_reference": {
+                        "kind": "subnet",
+                        "name": "A_64_MNA_APPZONE1_10.4.0.144/28",
+                        "uuid": "724dfd68-7ff4-479f-bef4-deb801155493"
+                    },
+                    "trunked_vlan_list": [],
+                    "uuid": "7dc7b920-4642-4a77-a25e-e454086cbef0",
+                    "vlan_mode": "ACCESS"
+                },
+                {
+                    "ip_endpoint_list": [
+                        {
+                            "ip": "10.5.1.246",
+                            "type": "ASSIGNED"
+                        }
+                    ],
+                    "is_connected": true,
+                    "mac_address": "50:6b:8d:47:49:22",
+                    "nic_type": "NORMAL_NIC",
+                    "subnet_reference": {
+                        "kind": "subnet",
+                        "name": "A-64-MNA_ADMIN_10.5.1.224/27",
+                        "uuid": "5511f7a5-5f9d-45db-99f6-8d5c49933d21"
+                    },
+                    "trunked_vlan_list": [],
+                    "uuid": "8f98d07d-7934-40fc-b771-b444271f9657",
+                    "vlan_mode": "ACCESS"
+                }
+            ],
+            "num_sockets": 1,
+            "num_threads_per_core": 1,
+            "num_vcpus_per_socket": 2,
+            "power_state": "ON",
+            "power_state_mechanism": {
+                "guest_transition_config": {
+                    "enable_script_exec": false,
+                    "should_fail_on_script_failure": false
+                },
+                "mechanism": "HARD"
+            },
+            "serial_port_list": [],
+            "vga_console_enabled": true,
+            "vnuma_config": {
+                "num_vnuma_nodes": 0
+            }
+        }
+    },
+    "status": {
+        "cluster_reference": {
+            "kind": "cluster",
+            "name": "gawain",
+            "uuid": "0005fdd6-984e-0865-47b9-7cc25507a515"
+        },
+        "name": "vm_gtest4-0",
+        "resources": {
+            "bios_uuid": "675e002a-8b42-4a93-870c-b8f528e68c78",
+            "boot_config": {
+                "boot_device": {
+                    "disk_address": {
+                        "adapter_type": "SCSI",
+                        "device_index": 0
+                    }
+                },
+                "boot_type": "LEGACY"
+            },
+            "disk_list": [
+                {
+                    "data_source_reference": {
+                        "kind": "image",
+                        "uuid": "5a8f813e-769c-4de8-a1ed-43d2999137c3"
+                    },
+                    "device_properties": {
+                        "device_type": "DISK",
+                        "disk_address": {
+                            "adapter_type": "SCSI",
+                            "device_index": 0
+                        }
+                    },
+                    "disk_size_bytes": 96636764160,
+                    "disk_size_mib": 92160,
+                    "is_migration_in_progress": false,
+                    "storage_config": {
+                        "storage_container_reference": {
+                            "kind": "storage_container",
+                            "name": "SelfServiceContainer",
+                            "uuid": "90f3f695-9e1c-4b65-8228-81ed65d9724f"
+                        }
+                    },
+                    "uuid": "862f471a-ca62-45b8-9f1a-d31282274b1c"
+                },
+                {
+                    "device_properties": {
+                        "device_type": "DISK",
+                        "disk_address": {
+                            "adapter_type": "SCSI",
+                            "device_index": 1
+                        }
+                    },
+                    "disk_size_bytes": 21474836480,
+                    "disk_size_mib": 20480,
+                    "is_migration_in_progress": false,
+                    "storage_config": {
+                        "storage_container_reference": {
+                            "kind": "storage_container",
+                            "name": "SelfServiceContainer",
+                            "uuid": "90f3f695-9e1c-4b65-8228-81ed65d9724f"
+                        }
+                    },
+                    "uuid": "7ebeba60-aafa-410f-9999-7a91e2eeb126"
+                },
+                {
+                    "device_properties": {
+                        "device_type": "CDROM",
+                        "disk_address": {
+                            "adapter_type": "IDE",
+                            "device_index": 0
+                        }
+                    },
+                    "disk_size_bytes": 378880,
+                    "disk_size_mib": 1,
+                    "is_migration_in_progress": false,
+                    "storage_config": {
+                        "storage_container_reference": {
+                            "kind": "storage_container",
+                            "name": "SelfServiceContainer",
+                            "uuid": "90f3f695-9e1c-4b65-8228-81ed65d9724f"
+                        }
+                    },
+                    "uuid": "81387e5c-d245-4fbc-8dd1-c70b19a9cca4"
+                }
+            ],
+            "generation_uuid": "0af22ea8-ad2a-4407-af6d-8c7c318d7e7d",
+            "gpu_list": [],
+            "guest_customization": {
+                "is_overridable": false,
+                "sysprep": {
+                    "install_type": "PREPARED",
+                    "unattend_xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHVuYXR0ZW5kIHhtbG5zPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnVuYXR0ZW5kIj4KICAgIDxzZXR0aW5ncyBwYXNzPSJzcGVjaWFsaXplIj4KICAgICAgICA8Y29tcG9uZW50CiAgICAgICAgICAgIHhtbG5zOndjbT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9XTUlDb25maWcvMjAwMi9TdGF0ZSIKICAgICAgICAgICAgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgbmFtZT0iTWljcm9zb2Z0LVdpbmRvd3MtU2hlbGwtU2V0dXAiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiPgogICAgICAgICAgICA8Q29tcHV0ZXJOYW1lPnZtX2d0ZXN0NC0wPC9Db21wdXRlck5hbWU+CiAgICAgICAgICAgIDxSZWdpc3RlcmVkT3JnYW5pemF0aW9uPnNkZjwvUmVnaXN0ZXJlZE9yZ2FuaXphdGlvbj4KICAgICAgICAgICAgPFJlZ2lzdGVyZWRPd25lcj5zZGY8L1JlZ2lzdGVyZWRPd25lcj4KICAgICAgICAgICAgPFRpbWVab25lPlcuIEV1cm9wZSBTdGFuZGFyZCBUaW1lPC9UaW1lWm9uZT4KICAgICAgICA8L2NvbXBvbmVudD4KICAgICAgICA8Y29tcG9uZW50IG5hbWU9Ik1pY3Jvc29mdC1XaW5kb3dzLUROUy1DbGllbnQiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiIHhtbG5zOndjbT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9XTUlDb25maWcvMjAwMi9TdGF0ZSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+CiAgICAgICAgICAgIDxJbnRlcmZhY2VzPgogICAgICAgICAgICAgICAgPEludGVyZmFjZSB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxETlNEb21haW4+c2RkYy52d2dyb3VwLmNvbTwvRE5TRG9tYWluPgogICAgICAgICAgICAgICAgICAgIDxFbmFibGVBZGFwdGVyRG9tYWluTmFtZVJlZ2lzdHJhdGlvbj5mYWxzZTwvRW5hYmxlQWRhcHRlckRvbWFpbk5hbWVSZWdpc3RyYXRpb24+CiAgICAgICAgICAgICAgICAgICAgPElkZW50aWZpZXI+RXRoZXJuZXQ8L0lkZW50aWZpZXI+CiAgICAgICAgICAgICAgICA8L0ludGVyZmFjZT4KICAgICAgICAgICAgPC9JbnRlcmZhY2VzPgogICAgICAgIDwvY29tcG9uZW50PgogICAgICAgIDxjb21wb25lbnQgbmFtZT0iTWljcm9zb2Z0LVdpbmRvd3MtVENQSVAiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiIHhtbG5zOndjbT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9XTUlDb25maWcvMjAwMi9TdGF0ZSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+CiAgICAgICAgICAgIDxJbnRlcmZhY2VzPgogICAgICAgICAgICAgICAgPEludGVyZmFjZSB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxJZGVudGlmaWVyPkV0aGVybmV0PC9JZGVudGlmaWVyPgogICAgICAgICAgICAgICAgICAgIDxJcHY0U2V0dGluZ3M+CiAgICAgICAgICAgICAgICAgICAgICAgIDxEaGNwRW5hYmxlZD50cnVlPC9EaGNwRW5hYmxlZD4KICAgICAgICAgICAgICAgICAgICA8L0lwdjRTZXR0aW5ncz4KICAgICAgICAgICAgICAgIDwvSW50ZXJmYWNlPgogICAgICAgICAgICA8L0ludGVyZmFjZXM+CiAgICAgICAgPC9jb21wb25lbnQ+CiAgICAgICAgPGNvbXBvbmVudAogICAgICAgICAgICB4bWxucz0iIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1UZXJtaW5hbFNlcnZpY2VzLUxvY2FsU2Vzc2lvbk1hbmFnZXIiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiPgogICAgICAgICAgICA8ZkRlbnlUU0Nvbm5lY3Rpb25zPmZhbHNlPC9mRGVueVRTQ29ubmVjdGlvbnM+CiAgICAgICAgPC9jb21wb25lbnQ+CiAgICAgICAgPGNvbXBvbmVudAogICAgICAgICAgICB4bWxucz0iIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1UZXJtaW5hbFNlcnZpY2VzLVJEUC1XaW5TdGF0aW9uRXh0ZW5zaW9ucyIgcHVibGljS2V5VG9rZW49IjMxYmYzODU2YWQzNjRlMzUiIGxhbmd1YWdlPSJuZXV0cmFsIiB2ZXJzaW9uU2NvcGU9Im5vblN4UyIgcHJvY2Vzc29yQXJjaGl0ZWN0dXJlPSJhbWQ2NCI+CiAgICAgICAgICAgIDxVc2VyQXV0aGVudGljYXRpb24+MDwvVXNlckF1dGhlbnRpY2F0aW9uPgogICAgICAgIDwvY29tcG9uZW50PgogICAgICAgIDxjb21wb25lbnQKICAgICAgICAgICAgeG1sbnM6d2NtPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL1dNSUNvbmZpZy8yMDAyL1N0YXRlIgogICAgICAgICAgICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBuYW1lPSJOZXR3b3JraW5nLU1QU1NWQy1TdmMiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiPgogICAgICAgICAgICA8RmlyZXdhbGxHcm91cHM+CiAgICAgICAgICAgICAgICA8RmlyZXdhbGxHcm91cCB3Y206YWN0aW9uPSJhZGQiIHdjbTprZXlWYWx1ZT0iUmVtb3RlRGVza3RvcCI+CiAgICAgICAgICAgICAgICAgICAgPEFjdGl2ZT50cnVlPC9BY3RpdmU+CiAgICAgICAgICAgICAgICAgICAgPFByb2ZpbGU+YWxsPC9Qcm9maWxlPgogICAgICAgICAgICAgICAgICAgIDxHcm91cD5ARmlyZXdhbGxBUEkuZGxsLC0yODc1MjwvR3JvdXA+CiAgICAgICAgICAgICAgICA8L0ZpcmV3YWxsR3JvdXA+CiAgICAgICAgICAgIDwvRmlyZXdhbGxHcm91cHM+CiAgICAgICAgPC9jb21wb25lbnQ+CiAgICA8L3NldHRpbmdzPgogICAgPHNldHRpbmdzIHBhc3M9Im9vYmVTeXN0ZW0iPgogICAgICAgIDxjb21wb25lbnQKICAgICAgICAgICAgeG1sbnM6d2NtPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL1dNSUNvbmZpZy8yMDAyL1N0YXRlIgogICAgICAgICAgICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1TaGVsbC1TZXR1cCIgcHJvY2Vzc29yQXJjaGl0ZWN0dXJlPSJhbWQ2NCIgcHVibGljS2V5VG9rZW49IjMxYmYzODU2YWQzNjRlMzUiIGxhbmd1YWdlPSJuZXV0cmFsIiB2ZXJzaW9uU2NvcGU9Im5vblN4UyI+CiAgICAgICAgICAgIDxVc2VyQWNjb3VudHM+CiAgICAgICAgICAgICAgICA8QWRtaW5pc3RyYXRvclBhc3N3b3JkPgogICAgICAgICAgICAgICAgICAgIDxWYWx1ZT5udXRhbml4LzR1PC9WYWx1ZT4KICAgICAgICAgICAgICAgICAgICA8UGxhaW5UZXh0PnRydWU8L1BsYWluVGV4dD4KICAgICAgICAgICAgICAgIDwvQWRtaW5pc3RyYXRvclBhc3N3b3JkPgogICAgICAgICAgICA8L1VzZXJBY2NvdW50cz4KICAgICAgICAgICAgPEF1dG9Mb2dvbj4KICAgICAgICAgICAgICAgIDxQYXNzd29yZD4KICAgICAgICAgICAgICAgICAgICA8VmFsdWU+bnV0YW5peC80dTwvVmFsdWU+CiAgICAgICAgICAgICAgICAgICAgPFBsYWluVGV4dD50cnVlPC9QbGFpblRleHQ+CiAgICAgICAgICAgICAgICA8L1Bhc3N3b3JkPgogICAgICAgICAgICAgICAgPEVuYWJsZWQ+dHJ1ZTwvRW5hYmxlZD4KICAgICAgICAgICAgICAgIDxVc2VybmFtZT5BZG1pbmlzdHJhdG9yPC9Vc2VybmFtZT4KICAgICAgICAgICAgPC9BdXRvTG9nb24+CiAgICAgICAgICAgIDxGaXJzdExvZ29uQ29tbWFuZHM+CiAgICAgICAgICAgICAgICAgPFN5bmNocm9ub3VzQ29tbWFuZCB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxDb21tYW5kTGluZT5jbWQuZXhlIC9jIG5ldHNoIGFkdmZpcmV3YWxsIHNldCBhbGxwcm9maWxlcyBzdGF0ZSBvZmY8L0NvbW1hbmRMaW5lPgogICAgICAgICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj5XaW4gUk0gcG9ydCBvcGVuPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+MTwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PnRydWU8L1JlcXVpcmVzVXNlcklucHV0PgogICAgICAgICAgICAgICAgPC9TeW5jaHJvbm91c0NvbW1hbmQ+CiAgICAgICAgICAgICAgICA8U3luY2hyb25vdXNDb21tYW5kIHdjbTphY3Rpb249ImFkZCI+CiAgICAgICAgICAgICAgICAgICAgPENvbW1hbmRMaW5lPnBvd2Vyc2hlbGwgLUNvbW1hbmQgIkVuYWJsZS1QU1JlbW90aW5nIC1Ta2lwTmV0d29ya1Byb2ZpbGVDaGVjayAtRm9yY2UiPC9Db21tYW5kTGluZT4KICAgICAgICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+RW5hYmxlIFBTLVJlbW90aW5nPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+MjwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PnRydWU8L1JlcXVpcmVzVXNlcklucHV0PgogICAgICAgICAgICAgICAgPC9TeW5jaHJvbm91c0NvbW1hbmQ+CiAgICAgICAgICAgICAgICA8U3luY2hyb25vdXNDb21tYW5kIHdjbTphY3Rpb249ImFkZCI+CiAgICAgICAgICAgICAgICAgICAgPENvbW1hbmRMaW5lPnBvd2Vyc2hlbGwgLUNvbW1hbmQgIlNldC1FeGVjdXRpb25Qb2xpY3kgLUV4ZWN1dGlvblBvbGljeSBVbnJlc3RyaWN0ZWQiPC9Db21tYW5kTGluZT4KICAgICAgICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+RW5hYmxlIFJlbW90ZS1TaWduaW5nPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+MzwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PmZhbHNlPC9SZXF1aXJlc1VzZXJJbnB1dD4KICAgICAgICAgICAgICAgIDwvU3luY2hyb25vdXNDb21tYW5kPgogICAgICAgICAgICAgICAgPFN5bmNocm9ub3VzQ29tbWFuZCB3Y206YWN0aW9uPSJhZGQiPgogICAgICAgICAgICAgICAgICAgIDxDb21tYW5kTGluZT5uZXRzaCBhZHZmaXJld2FsbCBmaXJld2FsbCBhZGQgcnVsZSBuYW1lPSJJQ01QIEFsbG93IGluY29taW5nIFY0IGVjaG8gcmVxdWVzdCIgcHJvdG9jb2w9aWNtcHY0OjgsYW55IGRpcj1pbiBhY3Rpb249YWxsb3c8L0NvbW1hbmRMaW5lPgogICAgICAgICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj5FbmFibGUgSUNNUDwvRGVzY3JpcHRpb24+CiAgICAgICAgICAgICAgICAgICAgPE9yZGVyPjQ8L09yZGVyPgogICAgICAgICAgICAgICAgICAgIDxSZXF1aXJlc1VzZXJJbnB1dD5mYWxzZTwvUmVxdWlyZXNVc2VySW5wdXQ+CiAgICAgICAgICAgICAgICA8L1N5bmNocm9ub3VzQ29tbWFuZD4KICAgICAgICAgICAgICAgIDxTeW5jaHJvbm91c0NvbW1hbmQgd2NtOmFjdGlvbj0iYWRkIj4KICAgICAgICAgICAgICAgICAgICA8Q29tbWFuZExpbmU+cG93ZXJzaGVsbC5leGUgLUNvbW1hbmQgd2lucm0gcXVpY2tjb25maWcgLWZvcmNlPC9Db21tYW5kTGluZT4KICAgICAgICAgICAgICAgICAgICA8RGVzY3JpcHRpb24+RW5hYmxlLVBTUmVtb3Rpbmc8L0Rlc2NyaXB0aW9uPgogICAgICAgICAgICAgICAgICAgIDxPcmRlcj41PC9PcmRlcj4KICAgICAgICAgICAgICAgICAgICA8UmVxdWlyZXNVc2VySW5wdXQ+dHJ1ZTwvUmVxdWlyZXNVc2VySW5wdXQ+CiAgICAgICAgICAgICAgICA8L1N5bmNocm9ub3VzQ29tbWFuZD4KICAgICAgICAgICAgICAgIDxTeW5jaHJvbm91c0NvbW1hbmQgd2NtOmFjdGlvbj0iYWRkIj4KICAgICAgICAgICAgICAgICAgICA8Q29tbWFuZExpbmU+cG93ZXJzaGVsbCAtQ29tbWFuZCAiJHNoID0gKE5ldy1PYmplY3QgLUNvbU9iamVjdCAnU2hlbGwuQXBwbGljYXRpb24nKS5OYW1lc3BhY2UoMTcpLkl0ZW1zKCkgfCBXaGVyZS1PYmplY3QgeyAkXy5UeXBlIC1lcSAnQ0QgRHJpdmUnIH0gfCBmb3JlYWNoIHsgJF8uSW52b2tlVmVyYignRWplY3QnKSB9IjwvQ29tbWFuZExpbmU+CiAgICAgICAgICAgICAgICAgICAgPERlc2NyaXB0aW9uPkVqZWN0IENEUk9NIERyaXZlPC9EZXNjcmlwdGlvbj4KICAgICAgICAgICAgICAgICAgICA8T3JkZXI+NjwvT3JkZXI+CiAgICAgICAgICAgICAgICAgICAgPFJlcXVpcmVzVXNlcklucHV0PnRydWU8L1JlcXVpcmVzVXNlcklucHV0PgogICAgICAgICAgICAgICAgPC9TeW5jaHJvbm91c0NvbW1hbmQ+CiAgICAgICAgICAgICAgICA8U3luY2hyb25vdXNDb21tYW5kIHdjbTphY3Rpb249ImFkZCI+CiAgICAgICAgICAgICAgICAgICAgPENvbW1hbmRMaW5lPnBvd2Vyc2hlbGwgLUNvbW1hbmQgIkdldC1XbWlPYmplY3QgLUNsYXNzIFdpbjMyX3ZvbHVtZSAtRmlsdGVyICdEcml2ZVR5cGU9NScgfCBTZWxlY3QtT2JqZWN0IC1GaXJzdCAxIHwgU2V0LVdtaUluc3RhbmNlIC1Bcmd1bWVudHMgQHtEcml2ZUxldHRlcj0nVzonfSI8L0NvbW1hbmRMaW5lPgogICAgICAgICAgICAgICAgICAgIDxEZXNjcmlwdGlvbj5DaGFuZ2UgQ0RST00gRHJpdmUgTGV0dGVyIHRvIFc8L0Rlc2NyaXB0aW9uPgogICAgICAgICAgICAgICAgICAgIDxPcmRlcj43PC9PcmRlcj4KICAgICAgICAgICAgICAgICAgICA8UmVxdWlyZXNVc2VySW5wdXQ+dHJ1ZTwvUmVxdWlyZXNVc2VySW5wdXQ+CiAgICAgICAgICAgICAgICA8L1N5bmNocm9ub3VzQ29tbWFuZD4KICAgICAgICAgICAgPC9GaXJzdExvZ29uQ29tbWFuZHM+CiAgICAgICAgICAgIDxPT0JFPgogICAgICAgICAgICAgICAgPEhpZGVFVUxBUGFnZT50cnVlPC9IaWRlRVVMQVBhZ2U+CiAgICAgICAgICAgICAgICA8U2tpcE1hY2hpbmVPT0JFPnRydWU8L1NraXBNYWNoaW5lT09CRT4KICAgICAgICAgICAgPC9PT0JFPgogICAgICAgIDwvY29tcG9uZW50PgogICAgICAgIDxjb21wb25lbnQKICAgICAgICAgICAgeG1sbnM6d2NtPSJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL1dNSUNvbmZpZy8yMDAyL1N0YXRlIgogICAgICAgICAgICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBuYW1lPSJNaWNyb3NvZnQtV2luZG93cy1JbnRlcm5hdGlvbmFsLUNvcmUiIHByb2Nlc3NvckFyY2hpdGVjdHVyZT0iYW1kNjQiIHB1YmxpY0tleVRva2VuPSIzMWJmMzg1NmFkMzY0ZTM1IiBsYW5ndWFnZT0ibmV1dHJhbCIgdmVyc2lvblNjb3BlPSJub25TeFMiPgogICAgICAgICAgICA8SW5wdXRMb2NhbGU+ZW4tVVM8L0lucHV0TG9jYWxlPgogICAgICAgICAgICA8U3lzdGVtTG9jYWxlPmVuLVVTPC9TeXN0ZW1Mb2NhbGU+CiAgICAgICAgICAgIDxVSUxhbmd1YWdlRmFsbGJhY2s+ZW4tdXM8L1VJTGFuZ3VhZ2VGYWxsYmFjaz4KICAgICAgICAgICAgPFVJTGFuZ3VhZ2U+ZW4tVVM8L1VJTGFuZ3VhZ2U+CiAgICAgICAgICAgIDxVc2VyTG9jYWxlPmVuLVVTPC9Vc2VyTG9jYWxlPgogICAgICAgIDwvY29tcG9uZW50PgogICAgPC9zZXR0aW5ncz4KPC91bmF0dGVuZD4="
+                }
+            },
+            "hardware_clock_timezone": "UTC",
+            "host_reference": {
+                "kind": "host",
+                "name": "10.68.97.213",
+                "uuid": "9aafec3e-dba9-4bfd-a510-d4c8c5ae0c64"
+            },
+            "hypervisor_type": "AHV",
+            "is_agent_vm": false,
+            "machine_type": "PC",
+            "memory_size_mib": 8192,
+            "nic_list": [
+                {
+                    "ip_endpoint_list": [
+                        {
+                            "ip": "10.4.0.157",
+                            "type": "ASSIGNED"
+                        }
+                    ],
+                    "is_connected": true,
+                    "mac_address": "50:6b:8d:1a:58:2e",
+                    "nic_type": "NORMAL_NIC",
+                    "subnet_reference": {
+                        "kind": "subnet",
+                        "name": "A_64_MNA_APPZONE1_10.4.0.144/28",
+                        "uuid": "724dfd68-7ff4-479f-bef4-deb801155493"
+                    },
+                    "trunked_vlan_list": [],
+                    "uuid": "7dc7b920-4642-4a77-a25e-e454086cbef0",
+                    "vlan_mode": "ACCESS",
+                    "vpc_reference": {
+                        "kind": "vpc",
+                        "uuid": "98f359af-520b-4de1-bcda-4e5fa2c00002"
+                    }
+                },
+                {
+                    "ip_endpoint_list": [
+                        {
+                            "ip": "10.5.1.246",
+                            "type": "ASSIGNED"
+                        }
+                    ],
+                    "is_connected": true,
+                    "mac_address": "50:6b:8d:47:49:22",
+                    "nic_type": "NORMAL_NIC",
+                    "subnet_reference": {
+                        "kind": "subnet",
+                        "name": "A-64-MNA_ADMIN_10.5.1.224/27",
+                        "uuid": "5511f7a5-5f9d-45db-99f6-8d5c49933d21"
+                    },
+                    "trunked_vlan_list": [],
+                    "uuid": "8f98d07d-7934-40fc-b771-b444271f9657",
+                    "vlan_mode": "ACCESS",
+                    "vpc_reference": {
+                        "kind": "vpc",
+                        "uuid": "98f359af-520b-4de1-bcda-4e5fa2c00002"
+                    }
+                }
+            ],
+            "num_sockets": 1,
+            "num_threads_per_core": 1,
+            "num_vcpus_per_socket": 2,
+            "power_state": "ON",
+            "power_state_mechanism": {
+                "guest_transition_config": {
+                    "enable_script_exec": false,
+                    "should_fail_on_script_failure": false
+                },
+                "mechanism": "HARD"
+            },
+            "protection_type": "UNPROTECTED",
+            "serial_port_list": [],
+            "vga_console_enabled": true,
+            "vnuma_config": {
+                "num_vnuma_nodes": 0
+            }
+        },
+        "state": "COMPLETE",
+        "execution_context": {
+            "task_uuid": [
+                "e61f8e8b-fce2-4683-aa4a-3f7ad9b25987"
+            ]
+        }
+    }
+}

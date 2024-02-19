@@ -1,0 +1,7 @@
+{
+    "DSL_HELPERS_FOLDER": "./common/dsl_helpers",
+    "COMMON_ENV_FILE": "./common/common_env/common_environment.json",
+    "COMMON_LIB_FOLDER": "./common/common_lib",
+    "COMMON_TASKS_FOLDER": "./common/common_tasks",
+    "DAY2_TASKS_FOLDER" : "./blueprints/common_task_library/shared/day2"
+}

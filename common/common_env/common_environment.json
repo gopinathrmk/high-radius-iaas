@@ -1,0 +1,73 @@
+{
+
+    "_comment_SELF_SERVICE_MANAGEMENT1": "put references related to Self Service (your PC or Calm appliance) where the tenant project is located",
+    "_comment_SELF_SERVICE_MANAGEMENT2": "NB: this is not necessarily the Calm instance containing the teannt management runbooks (those created and run by DSL)",
+    "SELF_SERVICE_SECURE": "False",
+
+    "PC_PROVIDER_USERNAME": "xxx",
+    "PC_PROVIDER_SECRET": "xxx",
+    "PC_PROVIDER_SECURE": "True",
+
+    "_comment_VM_PROVIDER_ACCOUNT_NAME": "name of the account created in the SSP Calm instance that references the Prism Central provider for the AHV clusters",
+
+    "INFOBLOX_ADDRESS": "https://vwagwozdns1ech.sddc.vwgroup.com/wapi/v2.10",
+    "INFOBLOX_USERNAME": "xxx",
+    "INFOBLOX_SECRET": "xxx",
+    "INFOBLOX_SECURE": "True",
+    "INFOBLOX_TENANT_EXT_ATTR_NAME": "Tenant",
+
+    "_comment_PROJECT_ADMIN_ROLE_NAME1": "project role to be assigned the the project admin",
+    "_comment_PROJECT_ADMIN_ROLE_NAME2": "when requesting the creation of a tenant, the requester's (user connected to the SSP running the tenant runbook",
+    "_comment_PROJECT_ADMIN_ROLE_NAME3": "    from tenant management project) identity is used to be added to the new tenant project as a first user associated to this role",
+    "PROJECT_ADMIN_ROLE_NAME": "Consumer",
+
+    "INFOBLOX_NETWORKS_SPECS": {
+        "admin": {
+            "container_network": "10.5.0.0/16",
+            "tenant_admin_network_len" : "27"
+        },
+        "prod": {
+            "container_network": "10.4.0.0/16",
+            "tenant_prod_block_len": "26",
+            "tenant_app_network_len": "28",
+            "tenant_db_network_len": "29"
+        }
+    },
+
+    "_comment_VPC_EXTERNAL_SUBNET_LIST1": "list of names of the AHV external networks from the Prism Central provider, that will be associated to the VPC", 
+    "_comment_VPC_EXTERNAL_SUBNET_LIST2": "   maximum one NATed network and one No-NAT network",
+    "_comment_VPC_EXTERNAL_SUBNET_LIST3": "   that will be associated to the VPC",
+    "_comment_VPC_EXTERNAL_SUBNET_LIST4": "   only one network can be set as next hop for external routing",
+    "VPC_EXTERNAL_SUBNET_LIST": [
+        {
+            "name": "DR-Transit-OEN-Routed",
+            "default_route_next_hop": true
+        }
+    ],
+
+
+    "_comment_ENVIRONMENT_CREATION_IMAGE_NAME1": "image name from image library on the VM provider Prism Central",
+    "_comment_ENVIRONMENT_CREATION_IMAGE_NAME2": "this image is used to create VM configuration in project environments (mandatory), but never used for VM deployment",
+    "ENVIRONMENT_CREATION_IMAGE_NAME": "vw-rhel-8-20231130.qcow2",
+
+    "_comment_CYBERARK": "CyberArk endpoint details and Cyberark path data for each user that will be used for users credentials retrieval",
+    "CYBERARK": {
+        "credential_provider": "CyberArk_Prod",
+        "ccp_endpoint": "cyberark.emeagso.lab",
+        "ccp_endpoint_service": "Service",
+        "ccp_app_id": "app_id",
+        "ccp_default_safe": "default_safe",
+        "virtual_users": {
+            "infoblox": {
+                "vuser": "admin"
+            },
+            "prism": {
+                "vuser": "admin",
+                "safe": "prism_safe"
+            },
+            "calm": {
+                "vuser": "admin"
+            }
+        }
+    }
+}

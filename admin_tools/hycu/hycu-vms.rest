@@ -1,0 +1,61 @@
+### Set endpoint
+@pc-ip = {{pc_ip}}
+@basic_auth = Basic {{username}} {{password}}
+@contentType = application/json
+@accept = application/json
+
+### GET vms
+# @name vms
+curl --request -X GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/vms?pageSize=100&pageNumber=1&forceSync=false" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### Set a variable to GET a vm
+@vm_uuid = {{vms.response.body.entities[17].uuid}}
+
+### GET vm using uuid
+# @name vm
+curl --request GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/vms/{{vm_uuid}}" \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### Backup VM using uuid
+# @name vm_backup
+curl --request -X POST \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/vms/backup" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}" \
+    -d '{
+        "targetUuid": "ffe4bbe0-8acc-48b5-9997-faa1456783a7",
+        "backupType": "FULL_BACKUP",
+        "hypervisorUuid": null,
+        "vmUuid": "{{vm_uuid}}"
+        }'
+
+### Get VM Backups
+# @name vm_backups
+curl --request -X GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/vms/{{vm_uuid}}/backups" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### Set a variable to GET a backup
+@vm_backup_uuid = {{vm_backups.response.body.entities[3].uuid}}
+
+### Delete VM Backup
+# @name vm_delete_backup
+curl --request -X DELETE \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/vms/{{vm_uuid}}/backup/{{vm_backup_uuid}}?type=BACKUP_AND_COPY" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"

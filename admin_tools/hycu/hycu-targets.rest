@@ -1,0 +1,25 @@
+### Set endpoint
+@pc-ip = {{pc_ip}}
+@basic_auth = Basic {{username}} {{password}}
+@contentType = application/json
+@accept = application/json
+
+### GET targets
+# @name targets
+curl --request -X GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/targets?pageSize=100&pageNumber=1&includeDatastores=false&forceSync=false" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### Set a variable to GET a target
+@target_uuid = {{targets.response.body.entities[0].uuid}}
+
+### GET target using uuid
+# @name target
+curl --request GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/targets/{{target_uuid}}" \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"

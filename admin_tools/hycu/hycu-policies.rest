@@ -1,0 +1,61 @@
+### Set endpoint
+@pc-ip = {{pc_ip}}
+@basic_auth = Basic {{username}} {{password}}
+@contentType = application/json
+@accept = application/json
+
+### GET policies
+# @name policies
+curl --request -X GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/policies?pageSize=100&pageNumber=1" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### Set a variable to GET a policy
+@policy_uuid = {{policies.response.body.entities[2].uuid}}
+
+### GET policy using uuid
+# @name policy
+curl --request GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/policies/{{policy_uuid}}" \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### GET vms
+# @name vms
+curl --request -X GET \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/vms?pageSize=100&pageNumber=1&forceSync=false" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}"
+
+### Set a variable to GET a vm
+@vm_uuid = {{vms.response.body.entities[17].uuid}}
+
+### Assign VM to policy
+# @name vm_policy
+curl --request -X POST \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/policies/{{policy_uuid}}/assign" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}" \
+    -d '{
+        "vmUuidList": [
+            "{{vm_uuid}}"
+        ]
+        }'
+
+### Unassign VM from policy
+# @name vm_policy
+curl --request -X POST \
+    --url "https://{{pc-ip}}:8443/rest/v1.0/policies/unassign" \
+    --insecure \
+    --header "Accept: {{accept}}" \
+    --header "Content-Type: {{contentType}}" \
+    --header "Authorization: {{basic_auth}}" \
+    -d '{"vmUuidList": ["{{vm_uuid}}"]}'

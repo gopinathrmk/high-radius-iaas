@@ -1,0 +1,13 @@
+#cloud-config
+disable_root: False
+hostname: @@{hostname}@@
+users:
+  - default
+  - name: @@{cred_linux.username}@@
+    shell: /bin/bash
+    homedir: /home/@@{cred_linux.username}@@
+    ssh-authorized-keys:
+      - @@{os_cred_public_key}@@
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+ssh_pwauth: false
+package_upgrade: true
