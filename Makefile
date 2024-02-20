@@ -139,18 +139,24 @@ init-dsl-config: print-make-envs ## Initialize CALM-DSL to the Calm instance and
 
 #### CREATE BLUEPRINT TASKS
 # CALM_ENVIRONMENT default is "bwe".  To override, pass CALM_ENVIRONMENT for the make call, e.g., make create-windows-bp CALM_ENVIRONMENT=nyc
-create-all-bps create-windows-bp create-linux-bp: init-dsl-config
+create-all-bps create-windows-bp create-linux-bp create-ndb-bp: init-dsl-config
 create-all-bps: create-windows-bp create-linux-bp ## Compile and Create both Windows and Linux blueprints.
 create-windows-bp: ## Compile and create the Windows blueprint.
 	${DSL_VENV} make -C blueprints/windows create-bp
 create-linux-bp: ## Compile and create the Linux blueprint.
 	${DSL_VENV}  make -C blueprints/linux create-bp
+create-ndb-bp: ## Compile and create the NDB blueprint.
+	${DSL_VENV}  make -C blueprints/NDBMySQL create-bp
 
 #### COMPILE BLUEPRINT TASKS
 compile-windows-bp: ## Compile the Windows Blueprint.
 	${DSL_VENV} make -C blueprints/windows compile-bp
 compile-linux-bp: ## Compile the Linux Blueprint.
 	${DSL_VENV} make -C blueprints/linux compile-bp
+compile-ndb-bp: ## Compile the NDB Blueprint.
+	${DSL_VENV} make -C blueprints/NDBMySQL compile-bp
+
+
 test-linux-bp:
 	make -C blueprints/linux test-bp
 

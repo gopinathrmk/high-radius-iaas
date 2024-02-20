@@ -1,0 +1,5 @@
+{
+    "USECASE_ENV_FILE": "./usecase_env/usecase_environment.json",
+    "USECASE_LIB_FOLDER": "./usecase_lib",
+    "USECASE_TASKS_FOLDER": "./usecase_tasks"
+}
