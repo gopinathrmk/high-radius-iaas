@@ -323,22 +323,11 @@ class NC2_AWS(Profile):
 
     deployments = [f9a4c530_deployment, _66f2fcac_deployment]
 
-    cluster_name = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_SLA_cluster_name_SampleTask.py"
-            ),
-        ),
-        label="Cluster",
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )    
-
     DB_SIZE = CalmVariable.Simple(
         "200",
         label="Provide Database Size (GB)",
+        regex="^[\d]*$",
+        validate_regex = True,
         is_mandatory=True,
         is_hidden=False,
         runtime=True,
@@ -348,7 +337,7 @@ class NC2_AWS(Profile):
     DB_PASS = CalmVariable.Simple.Secret(
         Profile_NC2_AWS_variable_DB_PASS,
         label="Provide Root Password",
-        regex="^.*$",
+        #regex="^.*$",
         validate_regex=False,
         is_mandatory=False,
         is_hidden=False,
@@ -359,7 +348,7 @@ class NC2_AWS(Profile):
     DB_NAME = CalmVariable.Simple(
         "mysqldb",
         label="Provide Name For Initial Database",
-        is_mandatory=False,
+        is_mandatory=True,
         is_hidden=False,
         runtime=True,
         description="",
@@ -442,7 +431,7 @@ class NC2_AWS(Profile):
         CalmTask.Exec.escript(
             name="",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_SLA_cluster_name_SampleTask.py"
+                "scripts", "Profile_NC2_AWS_variable_cluster_name_SampleTask.py"
             ),
         ),
         label="Cluster",
