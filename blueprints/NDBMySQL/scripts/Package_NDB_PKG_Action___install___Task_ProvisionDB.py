@@ -107,6 +107,7 @@ payload = {
     }
   ]
 }
+#print(payload) #todo torem
 
 # Make the call and set the response operation ID to the variable
 resp = urlreq(url, verb='POST', auth='BASIC', user=era_user, passwd=era_pass, params=json.dumps(payload), headers=headers)
@@ -122,6 +123,14 @@ print('CREATE_OPERATION_ID={0}'.format(json.loads(resp.content)['operationId']))
 
 
 """
+# Set creds and headers
+era_user = '@@{NDB.username}@@'
+era_pass = '@@{NDB.secret}@@'
+headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
+
+# Set the URL and payload
+url     = 'https://@@{NDB_IP}@@:8443/era/v0.9/databases/provision'
+
 payload = {
   'name': '@@{calm_application_name}@@',
   'databaseType': 'mysql_database',
@@ -210,6 +219,7 @@ payload = {
   ]
 }
 
+print(payload) #todo torem
 # Make the call and set the response operation ID to the variable
 resp = urlreq(url, verb='POST', auth='BASIC', user=era_user, passwd=era_pass, params=json.dumps(payload), headers=headers)
 print resp.text

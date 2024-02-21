@@ -9,7 +9,7 @@ url     = "https://{}:8443/era/v0.8/operations/{}".format(era_ip,create_operatio
 
 
 for x in range(120): 
-    print("Waiting 60 Seconds")
+    print("Waiting for 60 Seconds")
     sleep(60)
 
     resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers)

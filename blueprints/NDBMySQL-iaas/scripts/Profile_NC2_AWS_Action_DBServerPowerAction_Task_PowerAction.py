@@ -1,6 +1,6 @@
 user = '@@{PC.username}@@'
 password = '@@{PC.secret}@@'
-ip = 'localhost'
+pc_ip = '@@{PC_IP}@@'
 vm_uuid = '@@{PC_VM_UUID}@@'
 
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}

@@ -61,6 +61,10 @@ class NDB_Service(Service):
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
 
+    DELETE_DB_OPERATION_ID = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
     CLUSTER_ID = CalmVariable.Simple(
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
@@ -268,29 +272,57 @@ class NDB_PKG(Package):
             name="MonitorCleanupOp",
             filename=os.path.join(
                 "scripts",
-                "Package_NDB_PKG_Action___uninstall___Task_MonitorCleanupOp.py",
+                "monitor_cleanup_db.py",
             ),
             target=ref(NDB_Service),
         )
-        with parallel() as p2:
-            with branch(p2):
-                CalmTask.Exec.escript(
-                    name="SkipDeleteDBServer",
-                    filename=os.path.join(
-                        "scripts",
-                        "Package_NDB_PKG_Action___uninstall___Task_SkipDeleteDBServer.py",
-                    ),
-                    target=ref(NDB_Service),
-                )
-            with branch(p2):
-                CalmTask.Exec.escript(
-                    name="ShutdownDBServer",
-                    filename=os.path.join(
-                        "scripts",
-                        "Package_NDB_PKG_Action___uninstall___Task_ShutdownDBServer.py",
-                    ),
-                    target=ref(NDB_Service),
-                )
+
+        CalmTask.Exec.escript(
+            name="ShutdownDBServer",
+            filename=os.path.join(
+                "scripts",
+                "Package_NDB_PKG_Action___uninstall___Task_ShutdownDBServer.py",
+            ),
+            target=ref(NDB_Service),
+        )
+
+        CalmTask.SetVariable.escript(
+            name="Delete DB Server VM",
+            filename=os.path.join(
+                "scripts", "delete_db_server_vm.py"
+            ),
+            target=ref(NDB_Service),
+            variables=["DELETE_DB_OPERATION_ID"],
+        )
+
+        CalmTask.Exec.escript(
+            name="Monitor Delete DB Server",
+            filename=os.path.join(
+                "scripts", "monitor_delete_db_server.py",
+            ),
+            target=ref(NDB_Service),
+        )
+
+        
+    #    with parallel() as p2:
+    #        with branch(p2):
+    #            CalmTask.Exec.escript(
+    #                name="SkipDeleteDBServer",
+    #                filename=os.path.join(
+    #                    "scripts",
+    #                    "Package_NDB_PKG_Action___uninstall___Task_SkipDeleteDBServer.py",
+    #                ),
+    #                target=ref(NDB_Service),
+    #            )
+    #        with branch(p2):
+    #            CalmTask.Exec.escript(
+    #                name="ShutdownDBServer",
+    #                filename=os.path.join(
+    #                    "scripts",
+    #                    "Package_NDB_PKG_Action___uninstall___Task_ShutdownDBServer.py",
+    #                ),
+    #                target=ref(NDB_Service),
+    #            )
 
 
 class MySQL_PKG(Package):
@@ -371,7 +403,7 @@ class NC2_AWS(Profile):
         CalmTask.Exec.escript(
             name="",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_DB_PARAMETERS_Task_SampleTask.py"
+                "scripts", "get_db_parameters.py"
             ),
         ),
         label="Select Database Parameter Profile",
@@ -401,7 +433,7 @@ class NC2_AWS(Profile):
         CalmTask.Exec.escript(
             name="",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_NETWORK_PROFILE_Task_SampleTask.py"
+                "scripts", "get_network_profile.py"
             ),
         ),
         label="Select Database Network Profile",
@@ -416,7 +448,7 @@ class NC2_AWS(Profile):
         CalmTask.Exec.escript(
             name="",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_COMPUTE_PROFILE_Task_SampleTask.py"
+                "scripts", "get_compute_profile.py"
             ),
         ),
         label="Select Database Compute Profile",
@@ -440,7 +472,7 @@ class NC2_AWS(Profile):
         description="",
     )    
 
-    NDB_public_key = CalmVariable.Simple(
+    NDB_public_key = CalmVariable.Simple.Secret(
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4Uh4sTFla3SJTKl9UQn8kShGo8ndvZwvx2nqmU8g1FSE3V5E3umXsHEdU5E/6t2pIHEVZSZDwRbDgC2q5vALpLaz7KtfzgbwBHQtgiVTOht1dZLSSi99iGZyO4lYXF50BXAjEJXsQXzNAMLVNfTNWcQfPAGuPwYVhzVMcQjSxS4jlnG3sHa+cLodAhiE4aaRnB1rdqBgJqgQHCFEU0Fd4EQRQNrT9dyS9Dm3eC03PKBq8nnTy1ldM4IlUzm18LqkgWSUbRJSwcwvvXCjhaaxAnO7ge53qA3w1WYMhLIIJfx0LLIa8Yn2Xzxo1aqkHTtHrpV9k7bSF3AO2RhaWGjbj era@mysqlsource",
         label="",
         is_mandatory=False,
@@ -456,6 +488,15 @@ class NC2_AWS(Profile):
         runtime=False,
         description="",
     )
+
+    PC_IP = CalmVariable.Simple(
+        "10.136.232.39",
+        label="",
+        is_mandatory=False,
+        is_hidden=True,
+        runtime=False,
+        description="",
+    )    
 
     @action
     def Snapshot():
@@ -497,7 +538,7 @@ class NC2_AWS(Profile):
             name="MonitorCleanupOp",
             filename=os.path.join(
                 "scripts",
-                "Profile_NC2_AWS_Action_DeleteDatabaseAndRetainTimeMachine_Task_MonitorCleanupOp.py",
+                "monitor_cleanup_db.py",
             ),
             target=ref(NDB_Service),
         )
@@ -634,8 +675,7 @@ class NC2_AWS(Profile):
             CalmTask.Exec.escript(
                 name="",
                 filename=os.path.join(
-                    "scripts",
-                    "Profile_NC2_AWS_Action_Clone_variable_DB_PARAMETERS_Task_SampleTask.py",
+                    "scripts","get_db_parameters.py",
                 ),
             ),
             label="Select Database Parameter Profile For Clone",
@@ -647,8 +687,7 @@ class NC2_AWS(Profile):
             CalmTask.Exec.escript(
                 name="",
                 filename=os.path.join(
-                    "scripts",
-                    "Profile_NC2_AWS_Action_Clone_variable_NETWORK_PROFILE_Task_SampleTask.py",
+                    "scripts","get_network_profile.py",
                 ),
             ),
             label="Select Network Profile For Clone",
@@ -661,7 +700,7 @@ class NC2_AWS(Profile):
                 name="",
                 filename=os.path.join(
                     "scripts",
-                    "Profile_NC2_AWS_Action_Clone_variable_COMPUTE_PROFILE_Task_SampleTask.py",
+                    "get_compute_profile.py",
                 ),
             ),
             label="Select Compute Profile For Clone",
@@ -781,8 +820,7 @@ class NC2_AWS(Profile):
             CalmTask.Exec.escript(
                 name="",
                 filename=os.path.join(
-                    "scripts",
-                    "Profile_NC2_AWS_Action_Restore_variable_DB_PARAMETERS_Task_SampleTask.py",
+                    "scripts","get_db_parameters.py",
                 ),
             ),
             label="Select Database Parameter Profile For Restored DB",
@@ -794,8 +832,7 @@ class NC2_AWS(Profile):
             CalmTask.Exec.escript(
                 name="",
                 filename=os.path.join(
-                    "scripts",
-                    "Profile_NC2_AWS_Action_Restore_variable_NETWORK_PROFILE_Task_SampleTask.py",
+                    "scripts","get_network_profile.py",
                 ),
             ),
             label="Select Network Profile For Restored DB",
@@ -808,7 +845,7 @@ class NC2_AWS(Profile):
                 name="",
                 filename=os.path.join(
                     "scripts",
-                    "Profile_NC2_AWS_Action_Restore_variable_COMPUTE_PROFILE_Task_SampleTask.py",
+                    "get_compute_profile.py",
                 ),
             ),
             label="Select Compute Profile For Restored DB",

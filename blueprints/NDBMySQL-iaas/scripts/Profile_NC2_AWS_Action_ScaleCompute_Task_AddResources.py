@@ -15,7 +15,7 @@ for prop in resp.json()['properties']:
 
 user = '@@{PC.username}@@'
 password = '@@{PC.secret}@@'
-ip = 'localhost'
+pc_ip = '@@{PC_IP}@@'
 vm_uuid = '@@{PC_VM_UUID}@@'
 
 get_headers = {'Accept': 'application/json'}

@@ -1,4 +1,5 @@
 if @@{DISK}@@ == 0:
-  print 'Error: No Disk to Add'
+  print("Error: No Disk to Add")
   exit(1)
-exit(0)
+  
+print("Valid Disk Size. Good to Proceed")
