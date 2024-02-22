@@ -21,7 +21,7 @@ requests.packages.urllib3.disable_warnings()
 response = requests.request("DELETE", url, json=data, headers=headers, verify=False, auth=(era_user, era_pass))
 
 if response.ok:
-    print("Cleanup Database Initiated")
+    print("Cleanup Database Initiated. Time machine and DB VM will not be deleted")
     print("CLEANUP_OPERATION_ID={0}".format(response.json()['operationId']))
 else:
     print("Database Instance could not be deleted : '{}' !!!".format(json.loads(response.content)['message']))

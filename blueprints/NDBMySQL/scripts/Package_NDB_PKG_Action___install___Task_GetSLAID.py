@@ -18,11 +18,3 @@ if not resp.ok:
 resp_content = json.loads(resp.content)
 print("SLA_ID={0}".format(resp_content["id"]))
 
-
-"""
-# Find the desired SLA, and set the corresponding ID to the variable
-for sla in json.loads(resp.content):
-  if sla['name'] == "@@{SLA}@@":
-    print "SLA_ID={0}".format(sla['id'])
-
-"""

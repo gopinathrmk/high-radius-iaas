@@ -2,10 +2,10 @@ pc_vm_uuid = '@@{PC_VM_UUID}@@'
 pc_user = '@@{PC.username}@@'
 pc_pass = '@@{PC.secret}@@'
 pc_ip = '@@{PC_IP}@@'
-disk = @@{DISK}@@
+disk_size = @@{DISK}@@
 
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-url = "https://{}:9440/api/nutanix/v3/vms/{}".format(pc_vm_uuid)
+url = "https://{}:9440/api/nutanix/v3/vms/{}".format(pc_ip,pc_vm_uuid)
 
 resp = urlreq(url, verb='GET', auth='BASIC', user=pc_user, passwd=pc_pass, headers=headers)
 
@@ -41,7 +41,7 @@ for disk in resp.json()['spec']['resources']['disk_list']:
                 exit(resp.status_code)           
 
             disk_nos = len(resp.json()['data'])
-            total_add_bytes = disk * 1024 * 1024 * 1024
+            total_add_bytes = disk_size * 1024 * 1024 * 1024
             add_per_disk = total_add_bytes / disk_nos    
             
             for count, vg_disk in enumerate(resp.json()['data']):

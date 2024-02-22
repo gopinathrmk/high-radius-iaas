@@ -329,6 +329,22 @@ class MySQL_PKG(Package):
 
     services = [ref(MySQL)]
 
+    @action
+    def __install__():
+
+        CalmTask.Exec.ssh(
+            name="Configure Hostname and Timezone ",
+            filename=os.path.join(
+                "scripts",
+                "configure_hostname_timezone.sh",
+            ),
+            cred=ref(BP_CRED_DB_SERVER_BASIC),
+            target=ref(MySQL),
+        )
+
+        CalmTask.Delay(name="Wait", delay_seconds=60, target=ref(MySQL))
+
+
 
 class f9a4c530_deployment(Deployment):
 
@@ -371,7 +387,7 @@ class NC2_AWS(Profile):
         label="Provide Root Password",
         #regex="^.*$",
         validate_regex=False,
-        is_mandatory=False,
+        is_mandatory=True,
         is_hidden=False,
         runtime=True,
         description="",
@@ -424,7 +440,7 @@ class NC2_AWS(Profile):
         label="Select Database Software Profile",
         regex="^.*$",
         validate_regex=False,
-        is_mandatory=False,
+        is_mandatory=True,
         is_hidden=False,
         description="",
     )
@@ -471,6 +487,24 @@ class NC2_AWS(Profile):
         is_hidden=False,
         description="",
     )    
+
+    DB_VM_FQDN = CalmVariable.Simple(
+        "myname.domain.com",
+        label="DB VM FQDN",
+        is_mandatory=True,
+        is_hidden=False,
+        runtime=True,
+        description="Enter the Fully Qualifed domain name for DB VM",
+    )
+
+    DB_VM_TZ = CalmVariable.Simple(
+        "America/Chicago",
+        label="DB VM TimeZone ",
+        is_mandatory=True,
+        is_hidden=True,
+        runtime=True,
+        description="",
+    )
 
     NDB_public_key = CalmVariable.Simple.Secret(
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4Uh4sTFla3SJTKl9UQn8kShGo8ndvZwvx2nqmU8g1FSE3V5E3umXsHEdU5E/6t2pIHEVZSZDwRbDgC2q5vALpLaz7KtfzgbwBHQtgiVTOht1dZLSSi99iGZyO4lYXF50BXAjEJXsQXzNAMLVNfTNWcQfPAGuPwYVhzVMcQjSxS4jlnG3sHa+cLodAhiE4aaRnB1rdqBgJqgQHCFEU0Fd4EQRQNrT9dyS9Dm3eC03PKBq8nnTy1ldM4IlUzm18LqkgWSUbRJSwcwvvXCjhaaxAnO7ge53qA3w1WYMhLIIJfx0LLIa8Yn2Xzxo1aqkHTtHrpV9k7bSF3AO2RhaWGjbj era@mysqlsource",

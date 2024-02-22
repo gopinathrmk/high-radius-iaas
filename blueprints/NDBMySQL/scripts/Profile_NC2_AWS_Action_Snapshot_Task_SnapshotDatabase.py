@@ -9,7 +9,19 @@ db_snapshot_name = '@@{DB_SNAPSHOT_NAME}@@'
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 
 # Get Cluster ID
-url     = "https://{0}/era/v0.9/tms/{}/snapshots".format(era_ip,time_machine_id)
+url     = "https://{0}/era/v0.9/tms/@@{TIME_MACHINE_ID}@@/snapshots".format(era_ip)
+payload = {
+  "name": "@@{DB_SNAPSHOT_NAME}@@"
+}
+
+import requests
+
+requests.packages.urllib3.disable_warnings()
+resp = requests.post(url, auth=(era_user, era_pass), headers=headers, json=payload, verify=False)
+
+"""
+# Get Cluster ID
+url     = "https://{0}/era/v0.9/tms/{1}/snapshots".format(era_ip,time_machine_id)
 payload = {
   "name": db_snapshot_name
 }
@@ -21,7 +33,7 @@ if not resp.ok:
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))
     exit(resp.status_code)
-   
+"""
 resp_content = json.loads(resp.content)
 snapshot_operation_id = resp_content.get("operationId",None)
 print("Snapshot Request Sent With Operation Id {}".format(snapshot_operation_id))
