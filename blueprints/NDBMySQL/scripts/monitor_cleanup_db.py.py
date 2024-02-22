@@ -1,4 +1,3 @@
-# Set creds, headers, and URL
 era_user = '@@{NDB.username}@@'
 era_pass = '@@{NDB.secret}@@'
 era_ip = '@@{NDB_IP}@@'

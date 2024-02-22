@@ -390,7 +390,7 @@ class NC2_AWS(Profile):
         CalmTask.Exec.escript(
             name="",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_SLA_Task_SampleTask.py"
+                "scripts", "list_slas.py"
             ),
         ),
         label="Select SLA For Snapshots/PITR Data Retention",
@@ -739,7 +739,7 @@ class NC2_AWS(Profile):
                 name="",
                 filename=os.path.join(
                     "scripts",
-                    "Profile_NC2_AWS_Action_Clone_variable_RESTORE_SNAPSHOT_NAME_Task_SampleTask.py",
+                    "list_snapshots.py",
                 ),
             ),
             label="Select Snapshot To Clone",
@@ -759,7 +759,7 @@ class NC2_AWS(Profile):
         CalmTask.SetVariable.escript(
             name="GetSnapshotId",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_Clone_Task_GetSnapshotId.py"
+                "scripts", "get_snapshot_id.py"
             ),
             target=ref(NDB_Service),
             variables=["DB_SNAPSHOT_ID"],
@@ -777,16 +777,16 @@ class NC2_AWS(Profile):
         CalmTask.SetVariable.escript(
             name="ProvisionClone",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_Clone_Task_ProvisionClone.py"
+                "scripts", "provision_clone.py"
             ),
             target=ref(NDB_Service),
             variables=["CREATE_OPERATION_ID"],
         )
 
         CalmTask.Exec.escript(
-            name="MonitorOperation",
+            name="MonitorClone",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_Clone_Task_MonitorOperation.py"
+                "scripts", "monitor_clone.py"
             ),
             target=ref(NDB_Service),
         )
@@ -808,7 +808,7 @@ class NC2_AWS(Profile):
                 name="",
                 filename=os.path.join(
                     "scripts",
-                    "Profile_NC2_AWS_Action_Restore_variable_SLA_Task_SampleTask.py",
+                    "list_slas.py",
                 ),
             ),
             label="Select SLA For Restored DB",
@@ -884,7 +884,7 @@ class NC2_AWS(Profile):
                 name="",
                 filename=os.path.join(
                     "scripts",
-                    "Profile_NC2_AWS_Action_Restore_variable_RESTORE_SNAPSHOT_NAME_Task_SampleTask.py",
+                    "list_snapshots.py",
                 ),
             ),
             label="Select Snapshot To Restore From",
@@ -904,7 +904,7 @@ class NC2_AWS(Profile):
         CalmTask.SetVariable.escript(
             name="GetSnapshotId",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_Restore_Task_GetSnapshotId.py"
+                "scripts", "get_snapshot_id.py"
             ),
             target=ref(NDB_Service),
             variables=["DB_SNAPSHOT_ID"],
@@ -922,7 +922,7 @@ class NC2_AWS(Profile):
         CalmTask.SetVariable.escript(
             name="ProvisionClone",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_Restore_Task_ProvisionClone.py"
+                "scripts", "provision_clone.py"
             ),
             target=ref(NDB_Service),
             variables=["CREATE_OPERATION_ID"],
@@ -931,7 +931,7 @@ class NC2_AWS(Profile):
         CalmTask.Exec.escript(
             name="MonitorClone",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_Restore_Task_MonitorClone.py"
+                "scripts", "monitor_clone.py"
             ),
             target=ref(NDB_Service),
         )
