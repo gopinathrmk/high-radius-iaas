@@ -147,6 +147,8 @@ create-linux-bp: ## Compile and create the Linux blueprint.
 	${DSL_VENV}  make -C blueprints/linux create-bp
 create-ndb-bp: ## Compile and create the NDB blueprint.
 	${DSL_VENV}  make -C blueprints/NDBMySQL create-bp
+create-ndb-restored-bp: ## Compile and create the NDB blueprint.
+	${DSL_VENV}  make -C blueprints/NDBMySQL-restore create-bp
 
 #### COMPILE BLUEPRINT TASKS
 compile-windows-bp: ## Compile the Windows Blueprint.
@@ -155,6 +157,9 @@ compile-linux-bp: ## Compile the Linux Blueprint.
 	${DSL_VENV} make -C blueprints/linux compile-bp
 compile-ndb-bp: ## Compile the NDB Blueprint.
 	${DSL_VENV} make -C blueprints/NDBMySQL compile-bp
+
+compile-ndb-restored-bp: ## Compile the NDB Blueprint.
+	${DSL_VENV} make -C blueprints/NDBMySQL-restore compile-bp
 
 
 test-linux-bp:
