@@ -25,14 +25,6 @@ Profile_NC2_AWS_Action_Restore_variable_CLONE_ROOT_PASS = read_local_file(
 Profile_NC2_AWS_variable_DB_PASS = read_local_file("Profile_NC2_AWS_variable_DB_PASS")
 
 # Credentials
-#BP_CRED_DB_SERVER = basic_cred(
-#    "era",
-#    BP_CRED_DB_SERVER_KEY,
-#    name="DB_SERVER",
-#    type="KEY",
-#    default=True,
-#    editables={"username": False, "secret": True},
-#)
 BP_CRED_DB_SERVER_BASIC = basic_cred(
     "era",
     BP_CRED_DB_SERVER_BASIC_PASSWORD,
@@ -81,9 +73,9 @@ class NDB_Service(Service):
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
 
-#    DB_ENTITY_NAME = CalmVariable.Simple(
-#        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
-#    )
+    DB_NAME = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
 
     DB_ID = CalmVariable.Simple(
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
@@ -201,60 +193,10 @@ class NDB_PKG(Package):
                 "DB_SERVER_ID",
                 "DB_SERVER_IP",
                 "PC_VM_UUID",
-                "CLUSTER_ID"
+                "CLUSTER_ID",
+                "DB_NAME"
             ],
         )
-#        CalmTask.SetVariable.escript(
-#            name="GetClusterID",
-#            filename=os.path.join(
-#                "scripts", "Package_NDB_PKG_Action___install___Task_GetClusterID.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["CLUSTER_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="GetProfileIDs",
-#            filename=os.path.join(
-#                "scripts", "Package_NDB_PKG_Action___install___Task_GetProfileIDs.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=[
-#                "SOFTWARE_PROF_ID",
-#                "SOFTWARE_PROF_VERSION_ID",
-#                "COMPUTE_PROF_ID",
-#                "NETWORK_PROF_ID",
-#                "DB_PARAM_ID",
-#            ],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="GetSLAID",
-#            filename=os.path.join(
-#                "scripts", "Package_NDB_PKG_Action___install___Task_GetSLAID.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["SLA_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="ProvisionDB",
-#            filename=os.path.join(
-#                "scripts", "Package_NDB_PKG_Action___install___Task_ProvisionDB.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["CREATE_OPERATION_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="MonitorOperation",
-#            filename=os.path.join(
-#                "scripts", "Package_NDB_PKG_Action___install___Task_MonitorOperation.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["DB_ENTITY_NAME"],
-#        )
-#
 
 
     @action
@@ -304,26 +246,6 @@ class NDB_PKG(Package):
             target=ref(NDB_Service),
         )
 
-        
-    #    with parallel() as p2:
-    #        with branch(p2):
-    #            CalmTask.Exec.escript(
-    #                name="SkipDeleteDBServer",
-    #                filename=os.path.join(
-    #                    "scripts",
-    #                    "Package_NDB_PKG_Action___uninstall___Task_SkipDeleteDBServer.py",
-    #                ),
-    #                target=ref(NDB_Service),
-    #            )
-    #        with branch(p2):
-    #            CalmTask.Exec.escript(
-    #                name="ShutdownDBServer",
-    #                filename=os.path.join(
-    #                    "scripts",
-    #                    "Package_NDB_PKG_Action___uninstall___Task_ShutdownDBServer.py",
-    #                ),
-    #                target=ref(NDB_Service),
-    #            )
 
 
 class MySQL_PKG(Package):
@@ -372,138 +294,48 @@ class NC2_AWS(Profile):
 
     deployments = [f9a4c530_deployment, _66f2fcac_deployment]
 
-    DB_SIZE = CalmVariable.Simple(
-        "200",
-        label="Provide Database Size (GB)",
-        regex="^[\d]*$",
-        validate_regex = True,
+    BP_NAME_RESTORE = CalmVariable.Simple(
+        "NDB-MySQL-Restored",
+        label="BP Name to manage Restored VM ",
         is_mandatory=True,
-        is_hidden=False,
+        is_hidden=True,
         runtime=True,
         description="",
     )
 
-    DB_PASS = CalmVariable.Simple.Secret(
-        Profile_NC2_AWS_variable_DB_PASS,
-        label="Provide Root Password",
-        #regex="^.*$",
-        validate_regex=False,
+    BP_NAME_CLONE = CalmVariable.Simple(
+        "NDB-MySQL-Clone",
+        label="BP Name to manage Clone VM ",
         is_mandatory=True,
-        is_hidden=False,
+        is_hidden=True,
         runtime=True,
         description="",
     )
 
-    DB_NAME = CalmVariable.Simple(
-        "mysqldb",
-        label="Provide Name For Initial Database",
+    domain_name = CalmVariable.Simple(
+        "subdomain.domain.com",
+        label="Domain Name",
         is_mandatory=True,
         is_hidden=False,
         runtime=True,
-        description="",
-    )
+        description="Enter the domain name. Format: subdomain.domain.com",
+    ) 
 
-    SLA = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "list_slas.py"
-            ),
-        ),
-        label="Select SLA For Snapshots/PITR Data Retention",
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )
-
-    DB_PARAMETERS = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "get_db_parameters.py"
-            ),
-        ),
-        label="Select Database Parameter Profile",
-        regex=".*[Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss].*",
-        validate_regex=False,
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )
-
-    SOFT_PROFILE = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_SOFT_PROFILE_Task_SampleTask.py"
-            ),
-        ),
-        label="Select Database Software Profile",
-        regex="^.*$",
-        validate_regex=False,
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )
-
-    NETWORK_PROFILE = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "get_network_profile.py"
-            ),
-        ),
-        label="Select Database Network Profile",
-        regex="[Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss].*",
-        validate_regex=False,
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )
-
-    COMPUTE_PROFILE = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "get_compute_profile.py"
-            ),
-        ),
-        label="Select Database Compute Profile",
-        regex="[Dd][Ee][Ff][Aa][Uu][Ll][Tt].*",
-        validate_regex=False,
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )
-
-    cluster_name = CalmVariable.WithOptions.FromTask(
-        CalmTask.Exec.escript(
-            name="",
-            filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_variable_cluster_name_SampleTask.py"
-            ),
-        ),
-        label="Cluster",
-        is_mandatory=True,
-        is_hidden=False,
-        description="",
-    )    
-
-    DB_VM_FQDN = CalmVariable.Simple(
-        "myname.domain.com",
-        label="DB VM FQDN",
-        is_mandatory=True,
-        is_hidden=False,
-        runtime=True,
-        description="Enter the Fully Qualifed domain name for DB VM",
-    )
+#    DB_VM_FQDN = CalmVariable.Simple(
+#        "myname.domain.com",
+#        label="DB VM FQDN",
+#        is_mandatory=True,
+#        is_hidden=False,
+#        runtime=True,
+#        description="Enter the Fully Qualifed domain name for DB VM",
+#    )
 
     DB_VM_TZ = CalmVariable.Simple(
         "America/Chicago",
         label="DB VM TimeZone ",
         is_mandatory=True,
         is_hidden=True,
-        runtime=True,
+        runtime=False,
         description="",
     )
 
@@ -511,7 +343,7 @@ class NC2_AWS(Profile):
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4Uh4sTFla3SJTKl9UQn8kShGo8ndvZwvx2nqmU8g1FSE3V5E3umXsHEdU5E/6t2pIHEVZSZDwRbDgC2q5vALpLaz7KtfzgbwBHQtgiVTOht1dZLSSi99iGZyO4lYXF50BXAjEJXsQXzNAMLVNfTNWcQfPAGuPwYVhzVMcQjSxS4jlnG3sHa+cLodAhiE4aaRnB1rdqBgJqgQHCFEU0Fd4EQRQNrT9dyS9Dm3eC03PKBq8nnTy1ldM4IlUzm18LqkgWSUbRJSwcwvvXCjhaaxAnO7ge53qA3w1WYMhLIIJfx0LLIa8Yn2Xzxo1aqkHTtHrpV9k7bSF3AO2RhaWGjbj era@mysqlsource",
         label="",
         is_mandatory=False,
-        is_hidden=False,
+        is_hidden=True,
         runtime=False,
         description="",
     )
@@ -533,14 +365,14 @@ class NC2_AWS(Profile):
         description="",
     )    
 
-    DB_ENTITY_NAME = CalmVariable.Simple(
-        "final_test4-restored",
-        label="",
-        is_mandatory=False,
-        is_hidden=False,
-        runtime=True,
-        description="",
-    )
+#    DB_ENTITY_NAME = CalmVariable.Simple(
+#        "final_test4-restored",
+#        label="",
+#        is_mandatory=False,
+#        is_hidden=False,
+#        runtime=True,
+#        description="",
+#    )
 
     @action
     def Snapshot():
@@ -932,7 +764,7 @@ class NC2_AWS(Profile):
                 ),
             ),
             label="Select Snapshot To Restore From",
-            is_mandatory=False,
+            is_mandatory=True,
             is_hidden=False,
             description="",
         )
@@ -940,7 +772,7 @@ class NC2_AWS(Profile):
             ["Snapshot", "PITR"],
             label="Choose To Restore From Snapshot Or PITR",
             default="Snapshot",
-            is_mandatory=False,
+            is_mandatory=True,
             is_hidden=False,
             runtime=True,
             description="",
@@ -1023,6 +855,14 @@ class NC2_AWS(Profile):
             target=ref(NDB_Service),
         )
 
+        CalmTask.Exec.escript(
+            name="LaunchRestoreApp",
+            filename=os.path.join(
+                "scripts", "launch_restore_app.py"
+            ),
+            target=ref(NDB_Service),
+        )
+
     @action
     def LogCatchUp(name="Log Catch Up"):
         """Perform log catch up operation on DB."""
@@ -1037,7 +877,7 @@ class NC2_AWS(Profile):
 
 
 class NDBMySQL(Blueprint):
-    """MYSQL_SERVER_IP: @@{NDB_Service.DB_SERVER_IP}@@"""
+    """Manage the Restored Instance of Mysql DB via NDB"""
 
     services = [NDB_Service, MySQL]
     packages = [NDB_PKG, MySQL_PKG]

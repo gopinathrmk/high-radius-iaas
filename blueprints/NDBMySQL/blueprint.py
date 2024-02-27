@@ -371,6 +371,24 @@ class NC2_AWS(Profile):
 
     deployments = [f9a4c530_deployment, _66f2fcac_deployment]
 
+    BP_NAME_RESTORE = CalmVariable.Simple(
+        "NDB-MySQL-Restored",
+        label="BP Name to manage Restored VM ",
+        is_mandatory=True,
+        is_hidden=True,
+        runtime=True,
+        description="",
+    )
+
+    BP_NAME_CLONE = CalmVariable.Simple(
+        "NDB-MySQL-Clone",
+        label="BP Name to manage Clone VM ",
+        is_mandatory=True,
+        is_hidden=True,
+        runtime=True,
+        description="",
+    )
+
     DB_SIZE = CalmVariable.Simple(
         "200",
         label="Provide Database Size (GB)",
@@ -488,21 +506,30 @@ class NC2_AWS(Profile):
         description="",
     )    
 
-    DB_VM_FQDN = CalmVariable.Simple(
-        "myname.domain.com",
-        label="DB VM FQDN",
+#    DB_VM_FQDN = CalmVariable.Simple(
+#        "myname.domain.com",
+#        label="DB VM FQDN",
+#        is_mandatory=True,
+#        is_hidden=False,
+#        runtime=True,
+#        description="Enter the Fully Qualifed domain name for DB VM",
+#    )
+
+    domain_name = CalmVariable.Simple(
+        "subdomain.domain.com",
+        label="Domain Name",
         is_mandatory=True,
         is_hidden=False,
         runtime=True,
-        description="Enter the Fully Qualifed domain name for DB VM",
-    )
+        description="Enter the domain name. Format: subdomain.domain.com",
+    )  
 
     DB_VM_TZ = CalmVariable.Simple(
         "America/Chicago",
         label="DB VM TimeZone ",
         is_mandatory=True,
         is_hidden=True,
-        runtime=True,
+        runtime=False,
         description="",
     )
 
@@ -510,7 +537,7 @@ class NC2_AWS(Profile):
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4Uh4sTFla3SJTKl9UQn8kShGo8ndvZwvx2nqmU8g1FSE3V5E3umXsHEdU5E/6t2pIHEVZSZDwRbDgC2q5vALpLaz7KtfzgbwBHQtgiVTOht1dZLSSi99iGZyO4lYXF50BXAjEJXsQXzNAMLVNfTNWcQfPAGuPwYVhzVMcQjSxS4jlnG3sHa+cLodAhiE4aaRnB1rdqBgJqgQHCFEU0Fd4EQRQNrT9dyS9Dm3eC03PKBq8nnTy1ldM4IlUzm18LqkgWSUbRJSwcwvvXCjhaaxAnO7ge53qA3w1WYMhLIIJfx0LLIa8Yn2Xzxo1aqkHTtHrpV9k7bSF3AO2RhaWGjbj era@mysqlsource",
         label="",
         is_mandatory=False,
-        is_hidden=False,
+        is_hidden=True,
         runtime=False,
         description="",
     )
@@ -922,7 +949,7 @@ class NC2_AWS(Profile):
                 ),
             ),
             label="Select Snapshot To Restore From",
-            is_mandatory=False,
+            is_mandatory=True,
             is_hidden=False,
             description="",
         )
@@ -930,7 +957,7 @@ class NC2_AWS(Profile):
             ["Snapshot", "PITR"],
             label="Choose To Restore From Snapshot Or PITR",
             default="Snapshot",
-            is_mandatory=False,
+            is_mandatory=True,
             is_hidden=False,
             runtime=True,
             description="",
@@ -1013,6 +1040,14 @@ class NC2_AWS(Profile):
             target=ref(NDB_Service),
         )
 
+        CalmTask.Exec.escript(
+            name="LaunchRestoreApp",
+            filename=os.path.join(
+                "scripts", "launch_restore_app.py"
+            ),
+            target=ref(NDB_Service),
+        )
+
     @action
     def LogCatchUp(name="Log Catch Up"):
         """Perform log catch up operation on DB."""
@@ -1027,7 +1062,7 @@ class NC2_AWS(Profile):
 
 
 class NDBMySQL(Blueprint):
-    """MYSQL_SERVER_IP: @@{NDB_Service.DB_SERVER_IP}@@"""
+    """Automation of Mysql Provisioning via NDB"""
 
     services = [NDB_Service, MySQL]
     packages = [NDB_PKG, MySQL_PKG]

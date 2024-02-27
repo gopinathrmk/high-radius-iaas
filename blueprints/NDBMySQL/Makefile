@@ -50,7 +50,7 @@ endif
 DATE := $(shell date '+%M%S')
 
 DSL_FILENAME := "blueprint.py"
-BLUEPRINT_NAME := "NDB-MySQL-${BLUEPRINT_SUFFIX_NAME}"
+BLUEPRINT_NAME := "NDB-MySQL-Provision"
 MARKETPLACE_ITEM_NAME := "ECHo-Linux-Server"
 MARKETPLACE_ITEM_NAME_TEST := "ECHo-Linux-Server-Test"
 MARKETPLACE_CATEGORY := "DevOps"
