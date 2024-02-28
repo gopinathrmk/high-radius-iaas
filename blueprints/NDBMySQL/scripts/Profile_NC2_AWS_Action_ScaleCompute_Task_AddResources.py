@@ -5,6 +5,7 @@ pc_user = '@@{PC.username}@@'
 pc_pass = '@@{PC.secret}@@'
 pc_ip = '@@{PC_IP}@@'
 vm_uuid = '@@{PC_VM_UUID}@@'
+#db_entity_name = '@@{calm_application_name}@@' 
 db_entity_name = '@@{DB_ENTITY_NAME}@@'
 ram = @@{RAM}@@
 cpu = @@{CPU}@@

@@ -5,10 +5,6 @@ bp_name_restore = '@@{BP_NAME_RESTORE}@@'
 app_name_restore = '@@{CLONE_INSTANCE_NAME}@@'
 domain_name = '@@{domain_name}@@'
 
-#get Bp ID from name
-#get Bp detail
-
-
 url     = "https://{}:9440/api/nutanix/v3/blueprints/list".format(pc_ip)
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 
@@ -37,7 +33,7 @@ if not bp_uuid_restore:
     exit(1)
 
 #url = "https://{}:9440/api/nutanix/v3/blueprints/{}/export_json".format(pc_ip,bp_uuid_restore)
-url = "https://{}:9440/api/nutanix/v3/blueprints/{}".format(pc_ip,bp_uuid_restore)
+url = "https://{}:9440/api/nutanix/v3/blueprints/{}/runtime_editables".format(pc_ip,bp_uuid_restore)
 
 resp = urlreq(url, verb='GET', auth='BASIC', user=pc_user, passwd=pc_pwd, headers=headers)
 if not resp.ok:
@@ -47,32 +43,33 @@ if not resp.ok:
     print(u"text: {0}".format(resp.text))
     exit(resp.status_code)
 
-bp_details = json.loads(resp.content)
-
-del bp_details["status"]
-
-bp_details["spec"].update({
-    "app_profile_reference" : { "kind" : "app_profile", "uuid" : str(uuid.uuid4()) },
-    "application_name" : app_name_restore
-    })
+resp_content = json.loads(resp.content)
+app_profile_reference = resp_content["resources"][0]["app_profile_reference"]
+runtime_editables = resp_content["resources"][0]["runtime_editables"]
 
 flag=False
-for var in bp_details["spec"]["resources"]["app_profile_list"][0]["variable_list"]:
+for var in runtime_editables["variable_list"]:
     if var["name"] == "domain_name":
-        var["value"] = domain_name
+        var["value"]["value"] = domain_name
         flag=True
         break
 
 if not flag:
-    print("Error in editing the 'domain_name' variable of Restore BP !!! ")
+    print("Error in editing the 'domain_name' runtime variable of Restore BP !!! ")
     exit(1)
 
 
-print("Payload for launching Restore BP\n",bp_details)
+url     = "https://{}:9440/api/nutanix/v3/blueprints/{}/simple_launch".format(pc_ip,bp_uuid_restore)
+payload = {
+        "spec": {
+            "app_name": app_name_restore,
+            "app_description": "",
+            "app_profile_reference":app_profile_reference,
+            "runtime_editables": runtime_editables
+        }
+}
 
-url     = "https://{}:9440/api/nutanix/v3/blueprints/{}/launch".format(pc_ip,bp_uuid_restore)
-payload = bp_details
-
+print("Payload for launching Restore BP\n",payload)
 resp = urlreq(url, verb='POST', auth='BASIC', user=pc_user, passwd=pc_pwd, params=json.dumps(payload), headers=headers)
 
 if not resp.ok:

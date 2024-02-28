@@ -1,2 +1,0 @@
-address: '@@{NDB_Service.DB_SERVER_IP}@@'
-type: PROVISION_EXISTING_MACHINE

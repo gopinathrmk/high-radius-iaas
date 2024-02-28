@@ -22,6 +22,9 @@ response = requests.request("DELETE", url, json=data, headers=headers, verify=Fa
 
 if response.status_code == 500:
     print("Cannot Delete DB VM: " + json.loads(response.content)['message'])
+    print(u"status code: {0}".format(response.status_code))
+    print(u"reason: {0}".format(response.reason))
+    print(u"text: {0}".format(response.text))    
     exit(1)
 else:
     print("Delete DB VM Request Sent")

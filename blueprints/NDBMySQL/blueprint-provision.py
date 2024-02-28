@@ -25,14 +25,6 @@ Profile_NC2_AWS_Action_Restore_variable_CLONE_ROOT_PASS = read_local_file(
 Profile_NC2_AWS_variable_DB_PASS = read_local_file("Profile_NC2_AWS_variable_DB_PASS")
 
 # Credentials
-#BP_CRED_DB_SERVER = basic_cred(
-#    "era",
-#    BP_CRED_DB_SERVER_KEY,
-#    name="DB_SERVER",
-#    type="KEY",
-#    default=True,
-#    editables={"username": False, "secret": True},
-#)
 BP_CRED_DB_SERVER_BASIC = basic_cred(
     "era",
     BP_CRED_DB_SERVER_BASIC_PASSWORD,
@@ -170,7 +162,7 @@ class MySQL_VM(Substrate):
 
     readiness_probe = readiness_probe(
         connection_type="SSH",
-        disabled=True,
+        disabled=False,
         retries="5",
         connection_port=22,
         address="@@{ip_address}@@",
@@ -303,26 +295,6 @@ class NDB_PKG(Package):
             target=ref(NDB_Service),
         )
 
-        
-    #    with parallel() as p2:
-    #        with branch(p2):
-    #            CalmTask.Exec.escript(
-    #                name="SkipDeleteDBServer",
-    #                filename=os.path.join(
-    #                    "scripts",
-    #                    "Package_NDB_PKG_Action___uninstall___Task_SkipDeleteDBServer.py",
-    #                ),
-    #                target=ref(NDB_Service),
-    #            )
-    #        with branch(p2):
-    #            CalmTask.Exec.escript(
-    #                name="ShutdownDBServer",
-    #                filename=os.path.join(
-    #                    "scripts",
-    #                    "Package_NDB_PKG_Action___uninstall___Task_ShutdownDBServer.py",
-    #                ),
-    #                target=ref(NDB_Service),
-    #            )
 
 
 class MySQL_PKG(Package):
@@ -381,7 +353,7 @@ class NC2_AWS(Profile):
     )
 
     BP_NAME_CLONE = CalmVariable.Simple(
-        "NDB-MySQL-Clone",
+        "NDB-MySQL-Cloned",
         label="BP Name to manage Clone VM ",
         is_mandatory=True,
         is_hidden=True,
@@ -506,14 +478,7 @@ class NC2_AWS(Profile):
         description="",
     )    
 
-#    DB_VM_FQDN = CalmVariable.Simple(
-#        "myname.domain.com",
-#        label="DB VM FQDN",
-#        is_mandatory=True,
-#        is_hidden=False,
-#        runtime=True,
-#        description="Enter the Fully Qualifed domain name for DB VM",
-#    )
+
 
     domain_name = CalmVariable.Simple(
         "subdomain.domain.com",
@@ -533,7 +498,7 @@ class NC2_AWS(Profile):
         description="",
     )
 
-    NDB_public_key = CalmVariable.Simple.Secret(
+    NDB_public_key = CalmVariable.Simple(
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4Uh4sTFla3SJTKl9UQn8kShGo8ndvZwvx2nqmU8g1FSE3V5E3umXsHEdU5E/6t2pIHEVZSZDwRbDgC2q5vALpLaz7KtfzgbwBHQtgiVTOht1dZLSSi99iGZyO4lYXF50BXAjEJXsQXzNAMLVNfTNWcQfPAGuPwYVhzVMcQjSxS4jlnG3sHa+cLodAhiE4aaRnB1rdqBgJqgQHCFEU0Fd4EQRQNrT9dyS9Dm3eC03PKBq8nnTy1ldM4IlUzm18LqkgWSUbRJSwcwvvXCjhaaxAnO7ge53qA3w1WYMhLIIJfx0LLIa8Yn2Xzxo1aqkHTtHrpV9k7bSF3AO2RhaWGjbj era@mysqlsource",
         label="",
         is_mandatory=False,
@@ -848,6 +813,14 @@ class NC2_AWS(Profile):
             name="MonitorClone",
             filename=os.path.join(
                 "scripts", "monitor_clone.py"
+            ),
+            target=ref(NDB_Service),
+        )
+
+        CalmTask.Exec.escript(
+            name="LaunchCloneApp",
+            filename=os.path.join(
+                "scripts", "launch_clone_app.py"
             ),
             target=ref(NDB_Service),
         )

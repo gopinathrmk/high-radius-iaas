@@ -107,7 +107,7 @@ payload = {
     }
   ]
 }
-#print(payload) #todo torem
+
 
 # Make the call and set the response operation ID to the variable
 resp = urlreq(url, verb='POST', auth='BASIC', user=era_user, passwd=era_pass, params=json.dumps(payload), headers=headers)

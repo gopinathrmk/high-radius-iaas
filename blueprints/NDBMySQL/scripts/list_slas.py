@@ -16,7 +16,7 @@ if not resp.ok:
     exit(resp.status_code)
 
 resp_content = json.loads(resp.content)
-#print(resp_content) #todo torem
+
 slas =[]
 for sla in resp_content:
     if sla["name"].lower() != 'none':

@@ -17,7 +17,7 @@ if not resp.ok:
     exit(resp.status_code)
 
 resp_content = json.loads(resp.content)
-#print(resp_content) #todo torem
+
 profiles =[]
 for profile in resp_content:
     profiles.append(profile["name"])

@@ -2,7 +2,6 @@ era_user = '@@{NDB.username}@@'
 era_pass = '@@{NDB.secret}@@'
 era_ip = '@@{NDB_IP}@@'
 
-#soft_profile = '@@{SOFT_PROFILE}@@'
 compute_profile = '@@{COMPUTE_PROFILE}@@'
 network_profile = '@@{NETWORK_PROFILE}@@'
 db_parameters = '@@{DB_PARAMETERS}@@'

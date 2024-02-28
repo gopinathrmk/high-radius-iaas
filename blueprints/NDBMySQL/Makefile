@@ -49,8 +49,12 @@ endif
 
 DATE := $(shell date '+%M%S')
 
-DSL_FILENAME := "blueprint.py"
-BLUEPRINT_NAME := "NDB-MySQL-Provision"
+DSL_FILENAME_PROVISION := "blueprint-provision.py"
+DSL_FILENAME_RESTORED := "blueprint-restored.py"
+DSL_FILENAME_CLONED := "blueprint-cloned.py"
+BLUEPRINT_NAME_PROVISION := "NDB-MySQL-Provision"
+BLUEPRINT_NAME_RESTORED := "NDB-MySQL-Restored"
+BLUEPRINT_NAME_CLONED := "NDB-MySQL-Cloned"
 MARKETPLACE_ITEM_NAME := "ECHo-Linux-Server"
 MARKETPLACE_ITEM_NAME_TEST := "ECHo-Linux-Server-Test"
 MARKETPLACE_CATEGORY := "DevOps"
@@ -79,9 +83,17 @@ compile-bp:
 compile-bp-json:
 	calm compile bp -f ${DSL_FILENAME} -o json > bp.json
 
-create-bp:
-	calm compile bp -f ${DSL_FILENAME}
-	calm create bp -f ${DSL_FILENAME} --name ${BLUEPRINT_NAME} --force
+create-ndb-bp:
+	calm compile bp -f ${DSL_FILENAME_PROVISION}
+	calm create bp -f ${DSL_FILENAME_PROVISION} --name ${BLUEPRINT_NAME_PROVISION} --force
+
+create-ndb-restored-bp:
+	calm compile bp -f ${DSL_FILENAME_RESTORED}
+	calm create bp -f ${DSL_FILENAME_RESTORED} --name ${BLUEPRINT_NAME_RESTORED} --force
+
+create-ndb-cloned-bp:
+	calm compile bp -f ${DSL_FILENAME_CLONED}
+	calm create bp -f ${DSL_FILENAME_CLONED} --name ${BLUEPRINT_NAME_CLONED} --force
 
 launch-ahv-test-bp:
 	@echo CALM_ENV_AHV_NAME=${CALM_ENV_AHV_NAME}

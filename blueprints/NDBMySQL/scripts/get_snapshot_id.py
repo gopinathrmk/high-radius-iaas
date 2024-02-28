@@ -23,7 +23,7 @@ if not resp.ok:
     print(u"text: {0}".format(resp.text))
     exit(resp.status_code)
 
-print("Response",resp.json()) #todo torem
+print("Response",resp.json()) 
 for i in resp.json()['databaseCapabilities']['@@{DB_ID}@@']['capability']:
     if i['snapshots'] is not None:
         for j in i['snapshots']:

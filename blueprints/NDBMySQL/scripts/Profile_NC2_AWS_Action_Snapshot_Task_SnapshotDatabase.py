@@ -58,7 +58,7 @@ for x in range(60):
     if resp_content['status'] == '4':
         print("Operation Failed With Message:", resp_content['message'])
         exit(1)
-        
+
     # If complete, break out of loop
     if resp_content['percentageComplete'] == "100":
         print("Snapshot Operation Completed With Message:", resp_content['message'])

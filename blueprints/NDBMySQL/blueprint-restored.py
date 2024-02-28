@@ -73,6 +73,9 @@ class NDB_Service(Service):
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
 
+    DB_ENTITY_NAME = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
     DB_NAME = CalmVariable.Simple(
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
@@ -162,7 +165,7 @@ class MySQL_VM(Substrate):
 
     readiness_probe = readiness_probe(
         connection_type="SSH",
-        disabled=True,
+        disabled=False,
         retries="5",
         connection_port=22,
         address="@@{ip_address}@@",
@@ -184,7 +187,7 @@ class NDB_PKG(Package):
         CalmTask.SetVariable.escript(
             name="GetDatabaseInfo",
             filename=os.path.join(
-                "scripts", "Package_NDB_PKG_Action___install___Task_GetDatabaseInfo.py"
+                "scripts", "get_database_info_restored.py"
             ),
             target=ref(NDB_Service),
             variables=[
@@ -194,10 +197,10 @@ class NDB_PKG(Package):
                 "DB_SERVER_IP",
                 "PC_VM_UUID",
                 "CLUSTER_ID",
-                "DB_NAME"
+                "DB_NAME",
+                "DB_ENTITY_NAME"
             ],
         )
-
 
     @action
     def __uninstall__():
@@ -205,7 +208,7 @@ class NDB_PKG(Package):
         CalmTask.SetVariable.escript(
             name="CleanupDB",
             filename=os.path.join(
-                "scripts", "Package_NDB_PKG_Action___uninstall___Task_CleanupDB.py"
+                "scripts", "Package_NDB_PKG_Action___uninstall___Task_CleanupDB_Restore.py"
             ),
             target=ref(NDB_Service),
             variables=["CLEANUP_OPERATION_ID"],
@@ -304,7 +307,7 @@ class NC2_AWS(Profile):
     )
 
     BP_NAME_CLONE = CalmVariable.Simple(
-        "NDB-MySQL-Clone",
+        "NDB-MySQL-Cloned",
         label="BP Name to manage Clone VM ",
         is_mandatory=True,
         is_hidden=True,
@@ -319,16 +322,7 @@ class NC2_AWS(Profile):
         is_hidden=False,
         runtime=True,
         description="Enter the domain name. Format: subdomain.domain.com",
-    ) 
-
-#    DB_VM_FQDN = CalmVariable.Simple(
-#        "myname.domain.com",
-#        label="DB VM FQDN",
-#        is_mandatory=True,
-#        is_hidden=False,
-#        runtime=True,
-#        description="Enter the Fully Qualifed domain name for DB VM",
-#    )
+    )  
 
     DB_VM_TZ = CalmVariable.Simple(
         "America/Chicago",
@@ -339,7 +333,7 @@ class NC2_AWS(Profile):
         description="",
     )
 
-    NDB_public_key = CalmVariable.Simple.Secret(
+    NDB_public_key = CalmVariable.Simple(
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4Uh4sTFla3SJTKl9UQn8kShGo8ndvZwvx2nqmU8g1FSE3V5E3umXsHEdU5E/6t2pIHEVZSZDwRbDgC2q5vALpLaz7KtfzgbwBHQtgiVTOht1dZLSSi99iGZyO4lYXF50BXAjEJXsQXzNAMLVNfTNWcQfPAGuPwYVhzVMcQjSxS4jlnG3sHa+cLodAhiE4aaRnB1rdqBgJqgQHCFEU0Fd4EQRQNrT9dyS9Dm3eC03PKBq8nnTy1ldM4IlUzm18LqkgWSUbRJSwcwvvXCjhaaxAnO7ge53qA3w1WYMhLIIJfx0LLIa8Yn2Xzxo1aqkHTtHrpV9k7bSF3AO2RhaWGjbj era@mysqlsource",
         label="",
         is_mandatory=False,
@@ -364,15 +358,6 @@ class NC2_AWS(Profile):
         runtime=False,
         description="",
     )    
-
-#    DB_ENTITY_NAME = CalmVariable.Simple(
-#        "final_test4-restored",
-#        label="",
-#        is_mandatory=False,
-#        is_hidden=False,
-#        runtime=True,
-#        description="",
-#    )
 
     @action
     def Snapshot():
@@ -663,6 +648,14 @@ class NC2_AWS(Profile):
             name="MonitorClone",
             filename=os.path.join(
                 "scripts", "monitor_clone.py"
+            ),
+            target=ref(NDB_Service),
+        )
+
+        CalmTask.Exec.escript(
+            name="LaunchCloneApp",
+            filename=os.path.join(
+                "scripts", "launch_clone_app.py"
             ),
             target=ref(NDB_Service),
         )

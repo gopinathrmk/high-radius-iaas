@@ -20,7 +20,7 @@ if not resp.ok:
     exit(resp.status_code)
 
 a = ''
-#print(resp.json())  #todo torem
+
 for i in resp.json()['databaseCapabilities']['@@{NDB_Service.DB_ID}@@']['capability']:
   if i['snapshots'] is not None:
     for j in i['snapshots']:

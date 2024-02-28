@@ -48,6 +48,7 @@ else:
         print(u"reason: {0}".format(resp.reason))
         print(u"text: {0}".format(resp.text))
         exit(resp.status_code)
+    print("{} of VM is Successfull".format(power_action))
 
 print("Response Status: {}".format(resp.status_code))
 print("Response: {}".format(json.dumps(resp.json())))
