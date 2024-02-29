@@ -80,6 +80,7 @@ if not resp.ok:
     exit(resp.status_code)
 
 resp_content = json.loads(resp.content)
+print("Request to launch Clone DB as a separate Application is sent ")
 
 #Need to add the monitoring status of Second Blueprint
 

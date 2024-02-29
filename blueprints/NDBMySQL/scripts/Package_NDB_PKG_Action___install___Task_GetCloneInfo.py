@@ -34,11 +34,19 @@ tm_id = db_detail['timeMachineId']
 db_srv_id = db_detail['databaseNodes'][0]['dbserver']['id']
 db_srv_ip = db_detail['databaseNodes'][0]['dbserver']['ipAddresses'][0]
 pc_vm_uuid = db_detail['databaseNodes'][0]['dbserver']['vmClusterUuid']
+cluster_id = db_detail['databaseNodes'][0]['dbserver']['nxClusterId']
+
+for property in db_detail['properties']:
+    if property.get("name") == "db_name":
+        db_name = property.get("value")
+        break
 
 print("DB_ID={0}".format(db_id))
 print("TIME_MACHINE_ID={0}".format(tm_id))
 print("DB_SERVER_ID={0}".format(db_srv_id))
 print("DB_SERVER_IP={0}".format(db_srv_ip))
 print("PC_VM_UUID={0}".format(pc_vm_uuid))
-
+print("CLUSTER_ID={0}".format(cluster_id))
+print("DB_NAME={0}".format(db_name))
+print("DB_ENTITY_NAME={0}".format(db_entity_name))
 

@@ -8,8 +8,8 @@ db_id = '@@{DB_ID}@@'
 headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 url = "https://{}:8443/era/v0.9/databases/{}".format(era_ip,db_id)
 data =  {
-    "delete": True,
-    "remove": False,
+    "delete": False, #Need to use DB Later
+    "remove": True,
     "softRemove": False,
     "forced": False,
     "deleteTimeMachine": False,

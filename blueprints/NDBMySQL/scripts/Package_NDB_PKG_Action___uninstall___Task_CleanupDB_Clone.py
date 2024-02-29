@@ -13,7 +13,7 @@ data =  {
     "remove": False,
     "softRemove": False,
     "forced": False,
-    "deleteTimeMachine": False, #todo tocheck
+    "deleteTimeMachine": False,
     "deleteLogicalCluster": True
     }
 

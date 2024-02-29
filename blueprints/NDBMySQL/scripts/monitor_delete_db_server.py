@@ -22,7 +22,10 @@ for x in range(20):
 
     resp_content = json.loads(resp.content)
     print("Percentage Complete: {0}".format(resp_content['percentageComplete']))
-
+    if resp_content['status'] == '4':
+        print("Operation Failed With Message:", resp_content['message'])
+        exit(1)
+        
     # If complete, break out of loop
     if resp_content['percentageComplete'] == "100":
         print("Delete DB VM Operation Completed With Message:", resp_content['message'])
