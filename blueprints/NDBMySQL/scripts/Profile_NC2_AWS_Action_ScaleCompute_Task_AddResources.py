@@ -16,7 +16,7 @@ url = "https://{}:8443/era/v0.9/dbservers/{}?value-type=name&detailed=true".form
 
 resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers)
 if not resp.ok:
-    print("DB Details couldn't be retrieved")
+    print("DB Details couldn't be retrieved for '{}'".format(db_entity_name))
     print(u"status code: {0}".format(resp.status_code))
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))

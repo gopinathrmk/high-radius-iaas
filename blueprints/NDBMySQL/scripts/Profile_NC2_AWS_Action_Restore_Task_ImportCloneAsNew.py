@@ -12,7 +12,7 @@ headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 url = "https://{}:8443/era/v0.9/dbservers/{}?value-type=name&detailed=true".format(era_ip,clone_instance_name)
 resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers)
 if not resp.ok:
-    print("DB Server IP couldn't be retreived !!!")
+    print("Clone Details could not be retrieved for '{}' !!!".format(clone_instance_name))
     print(u"status code: {0}".format(resp.status_code))
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))
@@ -115,7 +115,7 @@ print(json.dumps(data))
 requests.packages.urllib3.disable_warnings()
 resp = requests.request("POST", url, json=data, headers=headers, verify=False, auth=(era_user, era_pass))
 if not resp.ok:
-    print("Clone Operation request is not accepted !!!")
+    print("Import Clone as new DB Operation request is not accepted !!!")
     print(u"status code: {0}".format(resp.status_code))
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))

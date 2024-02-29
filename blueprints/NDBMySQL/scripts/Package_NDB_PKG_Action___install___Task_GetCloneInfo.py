@@ -12,7 +12,7 @@ params = {'detailed': True, 'value-type':'name', 'value':db_entity_name}
 print("Get request to {} with params {}".format(url,params))
 resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers, params=params)
 if not resp.ok:
-    print("Clone Details couldn't be retrieved !!!")
+    print("Clone DB '{}' couldn't be retrieved !!!".format(db_entity_name))
     print(u"status code: {0}".format(resp.status_code))
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))

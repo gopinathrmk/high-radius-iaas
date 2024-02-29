@@ -14,7 +14,7 @@ def get_profile(params):
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
     resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers, params=params)
     if not resp.ok:
-        print("Couldn't retrieve details of {} Profile: '{}' !!!".format(params["type"], params["name"]))
+        print("Couldn't retrieve details of '{}' Profile: '{}' !!!".format(params["type"], params["name"]))
         print(u"status code: {0}".format(resp.status_code))
         print(u"reason: {0}".format(resp.reason))
         print(u"text: {0}".format(resp.text))

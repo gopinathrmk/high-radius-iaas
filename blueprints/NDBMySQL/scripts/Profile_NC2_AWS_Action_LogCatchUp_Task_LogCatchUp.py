@@ -22,7 +22,7 @@ payload = {
 requests.packages.urllib3.disable_warnings()
 resp = requests.post(url, auth=(era_user, era_pass), headers=headers, json=payload, verify=False)
 if not resp.ok:
-    print("Log Catch up request could not be sent !!!")
+    print("Log Catch up request could not be sent to TM : '{}' !!!".format(time_machine_id))
     print(u"status code: {0}".format(resp.status_code))
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))
@@ -38,7 +38,7 @@ for x in range(60):
 
     resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers)
     if not resp.ok:
-        print("Couldn't retrieve Detail of Log catch up Operation : '{}' !!!")
+        print("Couldn't retrieve Detail of Log catch up Operation on TM :{} !!!".format(time_machine_id)
         print(u"status code: {0}".format(resp.status_code))
         print(u"reason: {0}".format(resp.reason))
         print(u"text: {0}".format(resp.text))

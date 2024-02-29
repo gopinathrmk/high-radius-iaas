@@ -12,7 +12,7 @@ if power_action == 'Power On':
     url = 'https://{0}:9440/api/nutanix/v3/vms/{1}'.format(pc_ip, vm_uuid)
     resp = urlreq(url, verb='GET', auth='BASIC', user=user, passwd=password, verify=False, headers=get_headers)
     if not resp.ok:
-        print("DB Details couldn't be retrieved")
+        print("VM Details couldn't be retrieved for '{}'".format(vm_uuid))
         print(u"status code: {0}".format(resp.status_code))
         print(u"reason: {0}".format(resp.reason))
         print(u"text: {0}".format(resp.text))
@@ -29,7 +29,7 @@ if power_action == 'Power On':
     url = 'https://{0}:9440/api/nutanix/v3/vms/{1}'.format(pc_ip, vm_uuid)
     resp = urlreq(url, verb='PUT', auth='BASIC', user=user, passwd=password, params=json.dumps(vm_json), verify=False, headers=headers)
     if not resp.ok:
-        print("Vm Could not power on !!!")
+        print("VM '{}' Could not power on !!!".format(vm_uuid))
         print(u"status code: {0}".format(resp.status_code))
         print(u"reason: {0}".format(resp.reason))
         print(u"text: {0}".format(resp.text))
@@ -43,12 +43,12 @@ else:
         
     resp = urlreq(url, verb='POST', auth='BASIC', user=user, passwd=password, params=json.dumps({}), verify=False, headers=headers)
     if not resp.ok:
-        print("Vm Could not {} !!!".format(power_action))
+        print("Vm '{}' Could not {} !!!".format(vm_uuid,power_action))
         print(u"status code: {0}".format(resp.status_code))
         print(u"reason: {0}".format(resp.reason))
         print(u"text: {0}".format(resp.text))
         exit(resp.status_code)
-    print("{} of VM is Successfull".format(power_action))
+    print("{} of VM: '{}' is Successfull".format(power_action,vm_uuid))
 
 print("Response Status: {}".format(resp.status_code))
 print("Response: {}".format(json.dumps(resp.json())))

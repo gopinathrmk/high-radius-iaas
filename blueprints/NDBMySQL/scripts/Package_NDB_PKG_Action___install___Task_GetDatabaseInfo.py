@@ -11,7 +11,7 @@ headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 params = {'detailed': True, 'value-type':'name', 'value':db_entity_name}
 resp = urlreq(url, verb='GET', auth='BASIC', user=era_user, passwd=era_pass, headers=headers, params=params)
 if not resp.ok:
-    print("DB Details couldn't be retrieved !!!")
+    print("DB Details couldn't be retrieved for '{}'!!!".format(db_entity_name))
     print(u"status code: {0}".format(resp.status_code))
     print(u"reason: {0}".format(resp.reason))
     print(u"text: {0}".format(resp.text))
@@ -21,7 +21,7 @@ resp_content = json.loads(resp.content)
 if len(resp_content) == 1:
     db_detail = resp_content[0]
 elif len(resp_content) == 0:
-    print("DB 'db_entity_name' is not found  . Error . Exiting  ".format(db_entity_name))
+    print("DB '{}' is not found  . Error . Exiting  ".format(db_entity_name))
     exit(1)
 else:
     print("More than One DB is returned . Error . Exiting  ")
