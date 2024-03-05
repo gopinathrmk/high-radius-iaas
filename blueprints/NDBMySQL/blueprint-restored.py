@@ -136,6 +136,21 @@ class NDB_Service(Service):
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
 
+    FINAL_RAM = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
+    FINAL_SOCKET = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
+    FINAL_CORES = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+    resource_service = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
 
 class NDB_Provisioning(Substrate):
 
@@ -405,53 +420,79 @@ class NC2_AWS(Profile):
         )
 
     @action
-    def ScaleCompute(name="Scale Compute"):
+    def UpdateConfig(name="Update Config of VM"):
         """Scale Compute And Configure MySQL innodb_buffer_pool_size in my.cnf"""
 
+      
         RAM = CalmVariable.Simple.int(
             "0",
-            label="RAM To Add (GB)",
+            label="RAM To Add/Decrease (GB)",
             regex="^[\d]*$",
             validate_regex=False,
-            is_mandatory=False,
+            is_mandatory=True,
             is_hidden=False,
             runtime=True,
             description="",
         )
+
+
         CPU = CalmVariable.Simple.int(
             "0",
-            label="CPU To Add",
+            label="Number of CPU To Add/Decrease",
             regex="^[\d]*$",
+            validate_regex=False,
+            is_mandatory=True,
+            is_hidden=False,
+            runtime=True,
+            description="",
+        )
+
+        resource = CalmVariable.WithOptions(
+            ["CPU","RAM","Both"],
+            default = "Both",
+            label="Resource",
             validate_regex=False,
             is_mandatory=False,
             is_hidden=False,
             runtime=True,
             description="",
         )
-        CalmTask.Exec.escript(
-            name="Check",
-            filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_ScaleCompute_Task_Check.py"
-            ),
-            target=ref(NDB_Service),
+
+        action = CalmVariable.WithOptions(
+            ["Increase","Decrease"],
+            default = "Increase",
+            label="Resource action",
+            validate_regex=False,
+            is_mandatory=False,
+            is_hidden=False,
+            runtime=True,
+            description="",
         )
 
         CalmTask.SetVariable.escript(
-            name="Add Resources",
+            name="Validate Request",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_ScaleCompute_Task_AddResources.py"
+                "scripts", "validate_update_config.py"
             ),
             target=ref(NDB_Service),
-            variables=["DB_SOFT_DIR", "INNODB_POOL_SIZE"],
+            variables=[ "DB_SOFT_DIR", "INNODB_POOL_SIZE","FINAL_RAM","FINAL_SOCKET","FINAL_CORES" ],
         )
 
-        CalmTask.Delay(name="Wait", delay_seconds=20, target=ref(NDB_Service))
+        CalmTask.Exec.escript(
+            name="Update Config",
+            filename=os.path.join(
+                "scripts", "update_config.py"
+            ),
+            target=ref(NDB_Service)
+        )
+
+        CalmTask.Delay(name="Wait", delay_seconds=30, target=ref(NDB_Service))
 
         CalmTask.Exec.ssh(
             name="Configure DB Parameters",
             filename=os.path.join(
                 "scripts",
-                "Profile_NC2_AWS_Action_ScaleCompute_Task_ConfigureDBParameters.sh",
+                "Profile_NC2_AWS_Action_ScaleCompute_Task_ConfigureDBParameters_update.sh",
             ),
             cred=ref(BP_CRED_DB_SERVER_BASIC),
             target=ref(MySQL),
