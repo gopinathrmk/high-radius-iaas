@@ -136,6 +136,21 @@ class NDB_Service(Service):
         "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
     )
 
+    FINAL_RAM = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
+    FINAL_SOCKET = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
+    FINAL_CORES = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+    resource_service = CalmVariable.Simple(
+        "", label="", is_mandatory=False, is_hidden=False, runtime=False, description=""
+    )
+
 
 class NDB_Provisioning(Substrate):
 
@@ -297,23 +312,6 @@ class NC2_AWS(Profile):
 
     deployments = [f9a4c530_deployment, _66f2fcac_deployment]
 
-#    BP_NAME_RESTORE = CalmVariable.Simple(
-#        "NDB-MySQL-Restored",
-#        label="BP Name to manage Restored VM ",
-#        is_mandatory=True,
-#        is_hidden=True,
-#        runtime=True,
-#        description="",
-#    )
-#
-#    BP_NAME_CLONE = CalmVariable.Simple(
-#        "NDB-MySQL-Clone",
-#        label="BP Name to manage Clone VM ",
-#        is_mandatory=True,
-#        is_hidden=True,
-#        runtime=True,
-#        description="",
-#    )
 
     domain_name = CalmVariable.Simple(
         "subdomain.domain.com",
@@ -359,99 +357,80 @@ class NC2_AWS(Profile):
         description="",
     )    
 
-#    @action
-#    def Snapshot():
-#        """Create Time Machine Snapshot"""
-#
-#        DB_SNAPSHOT_NAME = CalmVariable.Simple(
-#            "",
-#            label="Snapshot Name",
-#            is_mandatory=True,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        CalmTask.Exec.escript(
-#            name="SnapshotDatabase",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Snapshot_Task_SnapshotDatabase.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
-#    @action
-#    def DeleteDatabaseAndRetainTimeMachine(
-#        name="Delete Database And Retain Time Machine",
-#    ):
-#        """This will unregister database from NDB and delete the database on VM. Time Machine (Snapshots/PITR Data) and Database Server will be retained for future cloning or creating a copy."""
-#
-#        CalmTask.SetVariable.escript(
-#            name="CleanupDB",
-#            filename=os.path.join(
-#                "scripts",
-#                "Profile_NC2_AWS_Action_DeleteDatabaseAndRetainTimeMachine_Task_CleanupDB.py",
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["CLEANUP_OPERATION_ID"],
-#        )
-#
-#        CalmTask.Exec.escript(
-#            name="MonitorCleanupOp",
-#            filename=os.path.join(
-#                "scripts",
-#                "monitor_cleanup_db.py",
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
     @action
-    def ScaleCompute(name="Scale Compute"):
+    def UpdateConfig(name="Update Config of VM"):
         """Scale Compute And Configure MySQL innodb_buffer_pool_size in my.cnf"""
 
+      
         RAM = CalmVariable.Simple.int(
             "0",
-            label="RAM To Add (GB)",
+            label="RAM To Add/Decrease (GB)",
             regex="^[\d]*$",
             validate_regex=False,
-            is_mandatory=False,
+            is_mandatory=True,
             is_hidden=False,
             runtime=True,
             description="",
         )
+
+
         CPU = CalmVariable.Simple.int(
             "0",
-            label="CPU To Add",
+            label="Number of CPU To Add/Decrease",
             regex="^[\d]*$",
+            validate_regex=False,
+            is_mandatory=True,
+            is_hidden=False,
+            runtime=True,
+            description="",
+        )
+
+        resource = CalmVariable.WithOptions(
+            ["CPU","RAM","Both"],
+            default = "Both",
+            label="Resource",
             validate_regex=False,
             is_mandatory=False,
             is_hidden=False,
             runtime=True,
             description="",
         )
-        CalmTask.Exec.escript(
-            name="Check",
-            filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_ScaleCompute_Task_Check.py"
-            ),
-            target=ref(NDB_Service),
+
+        action = CalmVariable.WithOptions(
+            ["Increase","Decrease"],
+            default = "Increase",
+            label="Resource action",
+            validate_regex=False,
+            is_mandatory=False,
+            is_hidden=False,
+            runtime=True,
+            description="",
         )
 
         CalmTask.SetVariable.escript(
-            name="Add Resources",
+            name="Validate Request",
             filename=os.path.join(
-                "scripts", "Profile_NC2_AWS_Action_ScaleCompute_Task_AddResources.py"
+                "scripts", "validate_update_config.py"
             ),
             target=ref(NDB_Service),
-            variables=["DB_SOFT_DIR", "INNODB_POOL_SIZE"],
+            variables=[ "DB_SOFT_DIR", "INNODB_POOL_SIZE","FINAL_RAM","FINAL_SOCKET","FINAL_CORES" ],
         )
 
-        CalmTask.Delay(name="Wait", delay_seconds=20, target=ref(NDB_Service))
+        CalmTask.Exec.escript(
+            name="Update Config",
+            filename=os.path.join(
+                "scripts", "update_config.py"
+            ),
+            target=ref(NDB_Service)
+        )
+
+        CalmTask.Delay(name="Wait", delay_seconds=30, target=ref(NDB_Service))
 
         CalmTask.Exec.ssh(
             name="Configure DB Parameters",
             filename=os.path.join(
                 "scripts",
-                "Profile_NC2_AWS_Action_ScaleCompute_Task_ConfigureDBParameters.sh",
+                "Profile_NC2_AWS_Action_ScaleCompute_Task_ConfigureDBParameters_update.sh",
             ),
             cred=ref(BP_CRED_DB_SERVER_BASIC),
             target=ref(MySQL),
@@ -520,345 +499,7 @@ class NC2_AWS(Profile):
             target=ref(NDB_Service),
         )
 
-#    @action
-#    def Clone():
-#        """Clone database. Time machine will not be created."""
-#
-#        CLONE_ROOT_PASS = CalmVariable.Simple.Secret(
-#            Profile_NC2_AWS_Action_Clone_variable_CLONE_ROOT_PASS,
-#            label="Root Password For Cloned DB",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        DB_PARAMETERS = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts","get_db_parameters.py",
-#                ),
-#            ),
-#            label="Select Database Parameter Profile For Clone",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        NETWORK_PROFILE = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts","get_network_profile.py",
-#                ),
-#            ),
-#            label="Select Network Profile For Clone",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        COMPUTE_PROFILE = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts",
-#                    "get_compute_profile.py",
-#                ),
-#            ),
-#            label="Select Compute Profile For Clone",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        CLONE_INSTANCE_NAME = CalmVariable.Simple(
-#            "@@{calm_application_name}@@-clone",
-#            label="Provide Cloned DB Instance Name",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        CLONE_VM_NAME = CalmVariable.Simple(
-#            "@@{calm_application_name}@@-clone",
-#            label="Provide Name For Cloned VM",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        RESTORE_DATE_TIME = CalmVariable.Simple.datetime(
-#            "19/11/2023 - 00:00:00",
-#            label="Select Date-Time To Clone (If PITR Is Selected Above)",
-#            regex="^((0[1-9]|[12]\d|3[01])/(0[1-9]|1[0-2])/[12]\d{3})(\s-\s)([0-1]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$",
-#            validate_regex=False,
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        RESTORE_SNAPSHOT_NAME = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts",
-#                    "list_snapshots.py",
-#                ),
-#            ),
-#            label="Select Snapshot To Clone",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        RESTORE_TYPE = CalmVariable.WithOptions(
-#            ["Snapshot", "PITR"],
-#            label="Choose To Clone From Snapshot Or PITR",
-#            default="Snapshot",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        CalmTask.SetVariable.escript(
-#            name="GetSnapshotId",
-#            filename=os.path.join(
-#                "scripts", "get_snapshot_id.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["DB_SNAPSHOT_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="GetProfileIDs",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Clone_Task_GetProfileIDs.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["COMPUTE_PROF_ID", "NETWORK_PROF_ID", "DB_PARAM_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="ProvisionClone",
-#            filename=os.path.join(
-#                "scripts", "provision_clone.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["CREATE_OPERATION_ID"],
-#        )
-#
-#        CalmTask.Exec.escript(
-#            name="MonitorClone",
-#            filename=os.path.join(
-#                "scripts", "monitor_clone.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
-#    @action
-#    def Restore():
-#        """Restore database to a new server. New Time machine will be created."""
-#
-#        CLONE_ROOT_PASS = CalmVariable.Simple.Secret(
-#            Profile_NC2_AWS_Action_Restore_variable_CLONE_ROOT_PASS,
-#            label="Root Password For Restored DB",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        SLA = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts",
-#                    "list_slas.py",
-#                ),
-#            ),
-#            label="Select SLA For Restored DB",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        DB_PARAMETERS = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts","get_db_parameters.py",
-#                ),
-#            ),
-#            label="Select Database Parameter Profile For Restored DB",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        NETWORK_PROFILE = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts","get_network_profile.py",
-#                ),
-#            ),
-#            label="Select Network Profile For Restored DB",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        COMPUTE_PROFILE = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts",
-#                    "get_compute_profile.py",
-#                ),
-#            ),
-#            label="Select Compute Profile For Restored DB",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            description="",
-#        )
-#        CLONE_INSTANCE_NAME = CalmVariable.Simple(
-#            "@@{calm_application_name}@@-restored",
-#            label="Provide Restored DB Instance Name",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        CLONE_VM_NAME = CalmVariable.Simple(
-#            "@@{calm_application_name}@@-restored",
-#            label="Provide Name For Restored DB VM",
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        RESTORE_DATE_TIME = CalmVariable.Simple.datetime(
-#            "19/11/2023 - 00:00:00",
-#            label="Select Date-Time To Restore From (If PITR Is Selected Above)",
-#            regex="^((0[1-9]|[12]\d|3[01])/(0[1-9]|1[0-2])/[12]\d{3})(\s-\s)([0-1]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$",
-#            validate_regex=False,
-#            is_mandatory=False,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        RESTORE_SNAPSHOT_NAME = CalmVariable.WithOptions.FromTask(
-#            CalmTask.Exec.escript(
-#                name="",
-#                filename=os.path.join(
-#                    "scripts",
-#                    "list_snapshots.py",
-#                ),
-#            ),
-#            label="Select Snapshot To Restore From",
-#            is_mandatory=True,
-#            is_hidden=False,
-#            description="",
-#        )
-#        RESTORE_TYPE = CalmVariable.WithOptions(
-#            ["Snapshot", "PITR"],
-#            label="Choose To Restore From Snapshot Or PITR",
-#            default="Snapshot",
-#            is_mandatory=True,
-#            is_hidden=False,
-#            runtime=True,
-#            description="",
-#        )
-#        CalmTask.SetVariable.escript(
-#            name="GetSnapshotId",
-#            filename=os.path.join(
-#                "scripts", "get_snapshot_id.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["DB_SNAPSHOT_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="GetProfileIDs",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Restore_Task_GetProfileIDs.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["COMPUTE_PROF_ID", "NETWORK_PROF_ID", "DB_PARAM_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="ProvisionClone",
-#            filename=os.path.join(
-#                "scripts", "provision_clone.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["CREATE_OPERATION_ID"],
-#        )
-#
-#        CalmTask.Exec.escript(
-#            name="MonitorClone",
-#            filename=os.path.join(
-#                "scripts", "monitor_clone.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="UnregisterClone",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Restore_Task_UnregisterClone.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["CLEANUP_OPERATION_ID"],
-#        )
-#
-#        CalmTask.Exec.escript(
-#            name="MonitorUnregister",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Restore_Task_MonitorUnregister.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="GetSLAID",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Restore_Task_GetSLAID.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["SLA_ID"],
-#        )
-#
-#        CalmTask.SetVariable.escript(
-#            name="ImportCloneAsNew",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Restore_Task_ImportCloneAsNew.py"
-#            ),
-#            target=ref(NDB_Service),
-#            variables=["REGISTER_OPERATION_ID"],
-#        )
-#
-#        CalmTask.Exec.escript(
-#            name="MonitorImport",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_Restore_Task_MonitorImport.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
-#        CalmTask.Exec.escript(
-#            name="LaunchRestoreApp",
-#            filename=os.path.join(
-#                "scripts", "launch_restore_app.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
-#
-#    @action
-#    def LogCatchUp(name="Log Catch Up"):
-#        """Perform log catch up operation on DB."""
-#
-#        CalmTask.Exec.escript(
-#            name="LogCatchUp",
-#            filename=os.path.join(
-#                "scripts", "Profile_NC2_AWS_Action_LogCatchUp_Task_LogCatchUp.py"
-#            ),
-#            target=ref(NDB_Service),
-#        )
+
 
 
 class NDBMySQL(Blueprint):
